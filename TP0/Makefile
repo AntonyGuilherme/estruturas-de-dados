@@ -9,7 +9,7 @@
 #		: make clean - remove objetos e executável
 #$(EXE) -s -p /tmp/somalog.out -l -x 4 -y 5
 #	$(EXE) -m -p /tmp/multlog.out -l -x 5 -y 5
-# 
+# $(EXE) -t -p /tmp/transplog.out -l -x 5 -y 4
 #---------------------------------------------------------------------
 
 CC = gcc
@@ -26,8 +26,8 @@ CFLAGS = -Wall -c -I$(INC)
 EXE = $(BIN)/matop
 
 all: $(EXE)
-	$(EXE) -m -p /tmp/multlog.out -l -x 5 -y 5
-	$(EXE) -t -p /tmp/transplog.out -l -x 5 -y 4
+	$(EXE) -t -p /tmp/multlog.out -l -1 matriz.txt
+	
 	
 $(BIN)/matop: $(OBJS)
 	$(CC) -o $(BIN)/matop $(OBJS) $(LIBS)
