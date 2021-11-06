@@ -80,6 +80,15 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/word2/Documents/GitHub/estruturas-de-dados/analise-de-complexidade-max-min/FuncaoDeComplexidade/analise-de-complexidade.cpp">
+			<Option target="analise_de_complexidade_max_min"/>
+		</Unit>
+		<Unit filename="C:/Users/word2/Documents/GitHub/estruturas-de-dados/analise-de-complexidade-max-min/TecnicasDeAnalise/AlgoritmoDeSelecao.c">
+			<Option target="analise_de_complexidade_max_min"/>
+		</Unit>
+		<Unit filename="C:/Users/word2/Documents/GitHub/estruturas-de-dados/analise-de-complexidade-max-min/TecnicasDeAnalise/TecnicasDeAnalise.cpp">
+			<Option target="analise_de_complexidade_max_min"/>
+		</Unit>
 		<Unit filename="C:/Users/word2/Documents/GitHub/estruturas-de-dados/analise-de-complexidade-max-min/main.cpp">
 			<Option target="analise_de_complexidade_max_min"/>
 		</Unit>

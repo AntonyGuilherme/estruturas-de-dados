@@ -141,6 +141,87 @@ analise_de_complexidade_max_min/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\analise_de_complexidade_max_min.dir\build.make CMakeFiles/analise_de_complexidade_max_min.dir/build
 .PHONY : analise_de_complexidade_max_min/fast
 
+FuncaoDeComplexidade/analise-de-complexidade.obj: FuncaoDeComplexidade/analise-de-complexidade.cpp.obj
+
+.PHONY : FuncaoDeComplexidade/analise-de-complexidade.obj
+
+# target to build an object file
+FuncaoDeComplexidade/analise-de-complexidade.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\analise_de_complexidade_max_min.dir\build.make CMakeFiles/analise_de_complexidade_max_min.dir/FuncaoDeComplexidade/analise-de-complexidade.cpp.obj
+.PHONY : FuncaoDeComplexidade/analise-de-complexidade.cpp.obj
+
+FuncaoDeComplexidade/analise-de-complexidade.i: FuncaoDeComplexidade/analise-de-complexidade.cpp.i
+
+.PHONY : FuncaoDeComplexidade/analise-de-complexidade.i
+
+# target to preprocess a source file
+FuncaoDeComplexidade/analise-de-complexidade.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\analise_de_complexidade_max_min.dir\build.make CMakeFiles/analise_de_complexidade_max_min.dir/FuncaoDeComplexidade/analise-de-complexidade.cpp.i
+.PHONY : FuncaoDeComplexidade/analise-de-complexidade.cpp.i
+
+FuncaoDeComplexidade/analise-de-complexidade.s: FuncaoDeComplexidade/analise-de-complexidade.cpp.s
+
+.PHONY : FuncaoDeComplexidade/analise-de-complexidade.s
+
+# target to generate assembly for a file
+FuncaoDeComplexidade/analise-de-complexidade.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\analise_de_complexidade_max_min.dir\build.make CMakeFiles/analise_de_complexidade_max_min.dir/FuncaoDeComplexidade/analise-de-complexidade.cpp.s
+.PHONY : FuncaoDeComplexidade/analise-de-complexidade.cpp.s
+
+TecnicasDeAnalise/AlgoritmoDeSelecao.obj: TecnicasDeAnalise/AlgoritmoDeSelecao.c.obj
+
+.PHONY : TecnicasDeAnalise/AlgoritmoDeSelecao.obj
+
+# target to build an object file
+TecnicasDeAnalise/AlgoritmoDeSelecao.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\analise_de_complexidade_max_min.dir\build.make CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/AlgoritmoDeSelecao.c.obj
+.PHONY : TecnicasDeAnalise/AlgoritmoDeSelecao.c.obj
+
+TecnicasDeAnalise/AlgoritmoDeSelecao.i: TecnicasDeAnalise/AlgoritmoDeSelecao.c.i
+
+.PHONY : TecnicasDeAnalise/AlgoritmoDeSelecao.i
+
+# target to preprocess a source file
+TecnicasDeAnalise/AlgoritmoDeSelecao.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\analise_de_complexidade_max_min.dir\build.make CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/AlgoritmoDeSelecao.c.i
+.PHONY : TecnicasDeAnalise/AlgoritmoDeSelecao.c.i
+
+TecnicasDeAnalise/AlgoritmoDeSelecao.s: TecnicasDeAnalise/AlgoritmoDeSelecao.c.s
+
+.PHONY : TecnicasDeAnalise/AlgoritmoDeSelecao.s
+
+# target to generate assembly for a file
+TecnicasDeAnalise/AlgoritmoDeSelecao.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\analise_de_complexidade_max_min.dir\build.make CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/AlgoritmoDeSelecao.c.s
+.PHONY : TecnicasDeAnalise/AlgoritmoDeSelecao.c.s
+
+TecnicasDeAnalise/TecnicasDeAnalise.obj: TecnicasDeAnalise/TecnicasDeAnalise.cpp.obj
+
+.PHONY : TecnicasDeAnalise/TecnicasDeAnalise.obj
+
+# target to build an object file
+TecnicasDeAnalise/TecnicasDeAnalise.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\analise_de_complexidade_max_min.dir\build.make CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/TecnicasDeAnalise.cpp.obj
+.PHONY : TecnicasDeAnalise/TecnicasDeAnalise.cpp.obj
+
+TecnicasDeAnalise/TecnicasDeAnalise.i: TecnicasDeAnalise/TecnicasDeAnalise.cpp.i
+
+.PHONY : TecnicasDeAnalise/TecnicasDeAnalise.i
+
+# target to preprocess a source file
+TecnicasDeAnalise/TecnicasDeAnalise.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\analise_de_complexidade_max_min.dir\build.make CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/TecnicasDeAnalise.cpp.i
+.PHONY : TecnicasDeAnalise/TecnicasDeAnalise.cpp.i
+
+TecnicasDeAnalise/TecnicasDeAnalise.s: TecnicasDeAnalise/TecnicasDeAnalise.cpp.s
+
+.PHONY : TecnicasDeAnalise/TecnicasDeAnalise.s
+
+# target to generate assembly for a file
+TecnicasDeAnalise/TecnicasDeAnalise.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\analise_de_complexidade_max_min.dir\build.make CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/TecnicasDeAnalise.cpp.s
+.PHONY : TecnicasDeAnalise/TecnicasDeAnalise.cpp.s
+
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -177,6 +258,15 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... analise_de_complexidade_max_min
+	@echo ... FuncaoDeComplexidade/analise-de-complexidade.obj
+	@echo ... FuncaoDeComplexidade/analise-de-complexidade.i
+	@echo ... FuncaoDeComplexidade/analise-de-complexidade.s
+	@echo ... TecnicasDeAnalise/AlgoritmoDeSelecao.obj
+	@echo ... TecnicasDeAnalise/AlgoritmoDeSelecao.i
+	@echo ... TecnicasDeAnalise/AlgoritmoDeSelecao.s
+	@echo ... TecnicasDeAnalise/TecnicasDeAnalise.obj
+	@echo ... TecnicasDeAnalise/TecnicasDeAnalise.i
+	@echo ... TecnicasDeAnalise/TecnicasDeAnalise.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

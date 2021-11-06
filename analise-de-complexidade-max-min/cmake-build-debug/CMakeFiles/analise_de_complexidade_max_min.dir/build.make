@@ -88,19 +88,64 @@ CMakeFiles/analise_de_complexidade_max_min.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/analise_de_complexidade_max_min.dir/main.cpp.s"
 	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\word2\Documents\GitHub\estruturas-de-dados\analise-de-complexidade-max-min\main.cpp -o CMakeFiles\analise_de_complexidade_max_min.dir\main.cpp.s
 
+CMakeFiles/analise_de_complexidade_max_min.dir/FuncaoDeComplexidade/analise-de-complexidade.cpp.obj: CMakeFiles/analise_de_complexidade_max_min.dir/flags.make
+CMakeFiles/analise_de_complexidade_max_min.dir/FuncaoDeComplexidade/analise-de-complexidade.cpp.obj: ../FuncaoDeComplexidade/analise-de-complexidade.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\word2\Documents\GitHub\estruturas-de-dados\analise-de-complexidade-max-min\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/analise_de_complexidade_max_min.dir/FuncaoDeComplexidade/analise-de-complexidade.cpp.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\analise_de_complexidade_max_min.dir\FuncaoDeComplexidade\analise-de-complexidade.cpp.obj -c C:\Users\word2\Documents\GitHub\estruturas-de-dados\analise-de-complexidade-max-min\FuncaoDeComplexidade\analise-de-complexidade.cpp
+
+CMakeFiles/analise_de_complexidade_max_min.dir/FuncaoDeComplexidade/analise-de-complexidade.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/analise_de_complexidade_max_min.dir/FuncaoDeComplexidade/analise-de-complexidade.cpp.i"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\word2\Documents\GitHub\estruturas-de-dados\analise-de-complexidade-max-min\FuncaoDeComplexidade\analise-de-complexidade.cpp > CMakeFiles\analise_de_complexidade_max_min.dir\FuncaoDeComplexidade\analise-de-complexidade.cpp.i
+
+CMakeFiles/analise_de_complexidade_max_min.dir/FuncaoDeComplexidade/analise-de-complexidade.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/analise_de_complexidade_max_min.dir/FuncaoDeComplexidade/analise-de-complexidade.cpp.s"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\word2\Documents\GitHub\estruturas-de-dados\analise-de-complexidade-max-min\FuncaoDeComplexidade\analise-de-complexidade.cpp -o CMakeFiles\analise_de_complexidade_max_min.dir\FuncaoDeComplexidade\analise-de-complexidade.cpp.s
+
+CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/TecnicasDeAnalise.cpp.obj: CMakeFiles/analise_de_complexidade_max_min.dir/flags.make
+CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/TecnicasDeAnalise.cpp.obj: ../TecnicasDeAnalise/TecnicasDeAnalise.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\word2\Documents\GitHub\estruturas-de-dados\analise-de-complexidade-max-min\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/TecnicasDeAnalise.cpp.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\analise_de_complexidade_max_min.dir\TecnicasDeAnalise\TecnicasDeAnalise.cpp.obj -c C:\Users\word2\Documents\GitHub\estruturas-de-dados\analise-de-complexidade-max-min\TecnicasDeAnalise\TecnicasDeAnalise.cpp
+
+CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/TecnicasDeAnalise.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/TecnicasDeAnalise.cpp.i"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\word2\Documents\GitHub\estruturas-de-dados\analise-de-complexidade-max-min\TecnicasDeAnalise\TecnicasDeAnalise.cpp > CMakeFiles\analise_de_complexidade_max_min.dir\TecnicasDeAnalise\TecnicasDeAnalise.cpp.i
+
+CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/TecnicasDeAnalise.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/TecnicasDeAnalise.cpp.s"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\word2\Documents\GitHub\estruturas-de-dados\analise-de-complexidade-max-min\TecnicasDeAnalise\TecnicasDeAnalise.cpp -o CMakeFiles\analise_de_complexidade_max_min.dir\TecnicasDeAnalise\TecnicasDeAnalise.cpp.s
+
+CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/AlgoritmoDeSelecao.c.obj: CMakeFiles/analise_de_complexidade_max_min.dir/flags.make
+CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/AlgoritmoDeSelecao.c.obj: ../TecnicasDeAnalise/AlgoritmoDeSelecao.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\word2\Documents\GitHub\estruturas-de-dados\analise-de-complexidade-max-min\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/AlgoritmoDeSelecao.c.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\analise_de_complexidade_max_min.dir\TecnicasDeAnalise\AlgoritmoDeSelecao.c.obj -c C:\Users\word2\Documents\GitHub\estruturas-de-dados\analise-de-complexidade-max-min\TecnicasDeAnalise\AlgoritmoDeSelecao.c
+
+CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/AlgoritmoDeSelecao.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/AlgoritmoDeSelecao.c.i"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\word2\Documents\GitHub\estruturas-de-dados\analise-de-complexidade-max-min\TecnicasDeAnalise\AlgoritmoDeSelecao.c > CMakeFiles\analise_de_complexidade_max_min.dir\TecnicasDeAnalise\AlgoritmoDeSelecao.c.i
+
+CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/AlgoritmoDeSelecao.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/AlgoritmoDeSelecao.c.s"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\word2\Documents\GitHub\estruturas-de-dados\analise-de-complexidade-max-min\TecnicasDeAnalise\AlgoritmoDeSelecao.c -o CMakeFiles\analise_de_complexidade_max_min.dir\TecnicasDeAnalise\AlgoritmoDeSelecao.c.s
+
 # Object files for target analise_de_complexidade_max_min
 analise_de_complexidade_max_min_OBJECTS = \
-"CMakeFiles/analise_de_complexidade_max_min.dir/main.cpp.obj"
+"CMakeFiles/analise_de_complexidade_max_min.dir/main.cpp.obj" \
+"CMakeFiles/analise_de_complexidade_max_min.dir/FuncaoDeComplexidade/analise-de-complexidade.cpp.obj" \
+"CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/TecnicasDeAnalise.cpp.obj" \
+"CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/AlgoritmoDeSelecao.c.obj"
 
 # External object files for target analise_de_complexidade_max_min
 analise_de_complexidade_max_min_EXTERNAL_OBJECTS =
 
 analise_de_complexidade_max_min.exe: CMakeFiles/analise_de_complexidade_max_min.dir/main.cpp.obj
+analise_de_complexidade_max_min.exe: CMakeFiles/analise_de_complexidade_max_min.dir/FuncaoDeComplexidade/analise-de-complexidade.cpp.obj
+analise_de_complexidade_max_min.exe: CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/TecnicasDeAnalise.cpp.obj
+analise_de_complexidade_max_min.exe: CMakeFiles/analise_de_complexidade_max_min.dir/TecnicasDeAnalise/AlgoritmoDeSelecao.c.obj
 analise_de_complexidade_max_min.exe: CMakeFiles/analise_de_complexidade_max_min.dir/build.make
 analise_de_complexidade_max_min.exe: CMakeFiles/analise_de_complexidade_max_min.dir/linklibs.rsp
 analise_de_complexidade_max_min.exe: CMakeFiles/analise_de_complexidade_max_min.dir/objects1.rsp
 analise_de_complexidade_max_min.exe: CMakeFiles/analise_de_complexidade_max_min.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\word2\Documents\GitHub\estruturas-de-dados\analise-de-complexidade-max-min\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable analise_de_complexidade_max_min.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\word2\Documents\GitHub\estruturas-de-dados\analise-de-complexidade-max-min\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable analise_de_complexidade_max_min.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\analise_de_complexidade_max_min.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
