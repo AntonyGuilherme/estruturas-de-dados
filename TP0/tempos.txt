@@ -1,0 +1,2 @@
+// tamanho multiplicação soma transposição
+100 0.182197700 0.280145700 0.35635635

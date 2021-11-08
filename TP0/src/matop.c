@@ -25,6 +25,7 @@
 static int opescolhida;
 char lognome[100];
 char arquivo_da_matriz_1[50], arquivo_da_matriz_2[50];
+char arquivo_de_saida[50] = "res.txt";
 int optx, opty, regmem;
 
 void uso()
@@ -63,7 +64,7 @@ void parse_args(int argc, char **argv)
 
   // getopt - letra indica a opcao, : junto a letra indica parametro
   // no caso de escolher mais de uma operacao, vale a ultima
-  while ((c = getopt(argc, argv, "smtp:1:2:lh")) != EOF)
+  while ((c = getopt(argc, argv, "smtp:1:2:o:lh")) != EOF)
     switch (c)
     {
     case 'm':
@@ -87,6 +88,10 @@ void parse_args(int argc, char **argv)
     case '2':
       strcpy(arquivo_da_matriz_2, optarg);
       break;
+    case 'o':
+      strcpy(arquivo_de_saida, optarg);
+      break;
+
     case 'l':
       regmem = 1;
       break;
@@ -109,7 +114,7 @@ void opcaoDeSoma()
 
   // lendo e declarando as matrizes
   mat_tipo *a = criarMatrizDeUmArquivo(arquivo_da_matriz_1);
-  mat_tipo *b = criarMatrizDeUmArquivo(arquivo_da_matriz_1);
+  mat_tipo *b = criarMatrizDeUmArquivo(arquivo_da_matriz_2);
 
   mat_tipo *c = malloc(sizeof(mat_tipo));
   criaMatriz(c, a->tamx,a->tamy);
@@ -119,6 +124,7 @@ void opcaoDeSoma()
 
   somaMatrizes(a, b, c);
   imprimeMatriz(c);
+  criarArquivoDaMatriz(c,arquivo_de_saida);
   destroiMatrizes(matrizes,3);
 
 }
@@ -130,7 +136,7 @@ void opcaoDeMultiplicacao(){
 
     // lendo as matrizes
     mat_tipo *a = criarMatrizDeUmArquivo(arquivo_da_matriz_1);
-    mat_tipo *b = criarMatrizDeUmArquivo(arquivo_da_matriz_1);
+    mat_tipo *b = criarMatrizDeUmArquivo(arquivo_da_matriz_2);
 
     mat_tipo *c = malloc(sizeof(mat_tipo));
     criaMatriz(c, a->tamx, b->tamy);
@@ -139,6 +145,7 @@ void opcaoDeMultiplicacao(){
 
     multiplicaMatrizes(a, b, c);
     imprimeMatriz(c);
+    criarArquivoDaMatriz(c,arquivo_de_saida);
     destroiMatrizes(matrizes,3);
 
 }
@@ -150,6 +157,7 @@ void opcaoDeTransposicao(){
 
     transpoeMatriz(a);
     imprimeMatriz(a);
+    criarArquivoDaMatriz(a,arquivo_de_saida);
     destroiMatriz(a);
 
 }

@@ -25,6 +25,7 @@ void inicializaMatrizNula(mat_tipo *mat);
 void inicializaMatrizAleatoria(mat_tipo *mat);
 void alocarDinamicamenteAMatriz(mat_tipo *matriz);
 void imprimeMatriz(mat_tipo *mat);
+void criarArquivoDaMatriz(mat_tipo *mat, char * nomeDoArquivo);
 void escreveElemento(mat_tipo *mat, int x, int y, double v);
 double leElemento(mat_tipo *mat, int x, int y);
 void copiaMatriz(mat_tipo *src, mat_tipo *dst);

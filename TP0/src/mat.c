@@ -38,6 +38,7 @@ mat_tipo * criarMatrizDeUmArquivo(char * nomeDoArquivo){
         for(int j = 0; j < matriz->tamy; j++){
 
           fscanf(referenciaAoArquivo,"%lf",&matriz->m[i][j]);
+          escreveMemLog((long int)(&(matriz->m[i][j])), sizeof(double));
         }
     }
 
@@ -122,14 +123,7 @@ void inicializaMatrizAleatoria(mat_tipo *mat)
       escreveMemLog((long int)(&(mat->m[i][j])), sizeof(double));
     }
   }
-  // inicializa o restante da matriz com valores nulos, por seguranca
-  // todo remover pois toda matriz já foi inicializada
-  /*for (i=mat->tamx+1; i<MAXTAM; i++){
-    for(j=mat->tamy+1; j<MAXTAM; j++){
-      mat->m[i][j] = 0;
-      escreveMemLog((long int)(&(mat->m[i][j])),sizeof(double));
-    }
-  }*/
+  
 }
 
 void imprimeMatriz(mat_tipo *mat)
@@ -138,10 +132,6 @@ void imprimeMatriz(mat_tipo *mat)
 // Saida: impressao na saida padrao (stdout)
 {
   int i, j;
-
-  // seguranca, mas erro não deve acontecer jamais
-  //erroAssert(mat->tamx<=MAXTAM,"Dimensao maior que permitido");
-  //erroAssert(mat->tamy<=MAXTAM,"Dimensao maior que permitido");
 
   // imprime os identificadores de coluna
   printf("%9s", " ");
@@ -160,6 +150,34 @@ void imprimeMatriz(mat_tipo *mat)
     }
     printf("\n");
   }
+
+}
+
+void criarArquivoDaMatriz(mat_tipo *mat, char * nomeDoArquvo){
+
+
+  FILE * arquivo = fopen(nomeDoArquvo,"w");
+
+  // insere a quantidade de linhas e colunas no arquivo
+  fprintf(arquivo,"%d %d",mat->tamx,mat->tamy);
+
+  // insere as linhas no arquivo
+  for (int i = 0; i < mat->tamx; i++)
+  {
+    // quebrando a linha
+    fprintf(arquivo,"\n");
+
+    for (int j = 0; j < mat->tamy; j++)
+    {
+      fprintf(arquivo,"%.2f ", mat->m[i][j]);
+      leMemLog((long int)(&(mat->m[i][j])), sizeof(double));
+    }
+
+  }
+
+  fclose(arquivo);
+
+
 }
 
 void escreveElemento(mat_tipo *mat, int x, int y, double v)
