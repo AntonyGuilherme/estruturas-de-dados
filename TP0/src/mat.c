@@ -18,34 +18,43 @@
 // Macro que realiza swap sem variavel auxiliar
 #define ELEMSWAP(x, y) (x += y, y = x - y, x -= y)
 
+mat_tipo *criarMatrizDeUmArquivo(char *nomeDoArquivo)
+{
 
-mat_tipo * criarMatrizDeUmArquivo(char * nomeDoArquivo){
+  // ler arquivo
 
-    // ler arquivo
+  FILE *referenciaAoArquivo = fopen(nomeDoArquivo, "r");
+  erroAssert(referenciaAoArquivo != NULL, "Arquivo não encontrado!");
 
-    FILE * referenciaAoArquivo = fopen(nomeDoArquivo,"r");
-    erroAssert(referenciaAoArquivo != NULL,"Arquivo não encontrado!");
-    
-    mat_tipo * matriz = malloc(sizeof(mat_tipo));
-    
-    fscanf(referenciaAoArquivo,"%d",&matriz->tamx);
-    fscanf(referenciaAoArquivo,"%d",&matriz->tamy);
+  mat_tipo *matriz = malloc(sizeof(mat_tipo));
 
-    alocarDinamicamenteAMatriz(matriz);
+  fscanf(referenciaAoArquivo, "%d", &matriz->tamx);
+  fscanf(referenciaAoArquivo, "%d", &matriz->tamy);
 
-    for(int i = 0; i < matriz->tamx ; i++){
+  criaMatriz(matriz, matriz->tamx, matriz->tamy);
 
-        for(int j = 0; j < matriz->tamy; j++){
+  int resultadoDaLeitura = 0;
 
-          fscanf(referenciaAoArquivo,"%lf",&matriz->m[i][j]);
-          escreveMemLog((long int)(&(matriz->m[i][j])), sizeof(double));
-        }
+  for (int i = 0; i < matriz->tamx; i++)
+  {
+
+    for (int j = 0; j < matriz->tamy; j++)
+    {
+
+      resultadoDaLeitura = fscanf(referenciaAoArquivo, "%lf", &matriz->m[i][j]);
+
+      erroAssert(
+          resultadoDaLeitura != -1,
+          "\nVerifique a(s) matrizes informadas! Elemento(s) Ausente(s).\n"
+          );
+
+      escreveMemLog((long int)(&(matriz->m[i][j])), sizeof(double));
     }
+  }
 
-    fclose(referenciaAoArquivo);
+  fclose(referenciaAoArquivo);
 
-    return matriz;
-
+  return matriz;
 };
 
 void criaMatriz(mat_tipo *mat, int tx, int ty)
@@ -56,8 +65,6 @@ void criaMatriz(mat_tipo *mat, int tx, int ty)
   // verifica se os valores de tx e ty são validos
   erroAssert(tx > 0, "Dimensao nula");
   erroAssert(ty > 0, "Dimensao nula");
-  //erroAssert(tx<=MAXTAM,"Dimensao maior que permitido");
-  //erroAssert(ty<=MAXTAM,"Dimensao maior que permitido");
 
   // inicializa as dimensoes da matriz
   mat->tamx = tx;
@@ -123,7 +130,6 @@ void inicializaMatrizAleatoria(mat_tipo *mat)
       escreveMemLog((long int)(&(mat->m[i][j])), sizeof(double));
     }
   }
-  
 }
 
 void imprimeMatriz(mat_tipo *mat)
@@ -150,34 +156,30 @@ void imprimeMatriz(mat_tipo *mat)
     }
     printf("\n");
   }
-
 }
 
-void criarArquivoDaMatriz(mat_tipo *mat, char * nomeDoArquvo){
+void criarArquivoDaMatriz(mat_tipo *mat, char *nomeDoArquvo)
+{
 
-
-  FILE * arquivo = fopen(nomeDoArquvo,"w");
+  FILE *arquivo = fopen(nomeDoArquvo, "w");
 
   // insere a quantidade de linhas e colunas no arquivo
-  fprintf(arquivo,"%d %d",mat->tamx,mat->tamy);
+  fprintf(arquivo, "%d %d", mat->tamx, mat->tamy);
 
   // insere as linhas no arquivo
   for (int i = 0; i < mat->tamx; i++)
   {
     // quebrando a linha
-    fprintf(arquivo,"\n");
+    fprintf(arquivo, "\n");
 
     for (int j = 0; j < mat->tamy; j++)
     {
-      fprintf(arquivo,"%.2f ", mat->m[i][j]);
+      fprintf(arquivo, "%.2f ", mat->m[i][j]);
       leMemLog((long int)(&(mat->m[i][j])), sizeof(double));
     }
-
   }
 
   fclose(arquivo);
-
-
 }
 
 void escreveElemento(mat_tipo *mat, int x, int y, double v)
@@ -322,11 +324,13 @@ void transpoeMatriz(mat_tipo *a)
   ELEMSWAP(a->tamx, a->tamy);
 }
 
-void destroiMatrizes(mat_tipo ** matrizes , int numeroDeMatrizes){
+void destroiMatrizes(mat_tipo **matrizes, int numeroDeMatrizes)
+{
 
-    for(int i = 0 ; i < numeroDeMatrizes ; i++){
-      destroiMatriz(matrizes[i]);
-    }
+  for (int i = 0; i < numeroDeMatrizes; i++)
+  {
+    destroiMatriz(matrizes[i]);
+  }
 }
 
 void destroiMatriz(mat_tipo *a)
@@ -335,7 +339,7 @@ void destroiMatriz(mat_tipo *a)
 // Saida: a
 {
   //um erro é lançado se a matriz for destruida mais de uma vez
-  erroAssert( a != NULL , "A Matriz já foi destruida");
+  erroAssert(a != NULL, "A Matriz já foi destruida");
 
   desalocarAMatriz(a->m, a->tamx);
 
@@ -344,7 +348,6 @@ void destroiMatriz(mat_tipo *a)
 
   //desabilitando a matriz
   a = NULL;
-
 }
 
 void desalocarAMatriz(double **matriz, int tamx)

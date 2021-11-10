@@ -10,6 +10,8 @@
 #$(EXE) -s -p /tmp/somalog.out -l -x 4 -y 5
 #	$(EXE) -m -p /tmp/multlog.out -l -x 5 -y 5
 # $(EXE) -t -p /tmp/transplog.out -l -x 5 -y 4
+# $(EXE) -t -p transplog.out -1 matriz_100.txt -o response.txt
+#	$(EXE) -s -p somalog.out -1 matriz_100.txt -2 matriz_100.txt -o response.txt
 #---------------------------------------------------------------------
 
 CC = gcc
@@ -26,9 +28,8 @@ CFLAGS = -Wall -c -I$(INC)
 EXE = $(BIN)/matop
 
 all: $(EXE)
-	$(EXE) -t -p multlog.out -1 matriz_100.txt -2 matriz.txt -o response.txt
-	$(EXE) -t -p transplog.out -1 matriz_100.txt -o response.txt
-	$(EXE) -s -p somalog.out -1 matriz_100.txt -2 matriz_100.txt -o response.txt
+	$(EXE) -t -p multlog.out -1 matriz.txt -2 matriz.txt -o response.txt
+	
 	
 	
 $(BIN)/matop: $(OBJS)
