@@ -98,40 +98,6 @@ void alocarDinamicamenteAMatriz(mat_tipo *matriz)
   }
 }
 
-void inicializaMatrizNula(mat_tipo *mat)
-// Descricao: inicializa mat com valores nulos
-// Entrada: mat
-// Saida: mat
-{
-  int i, j;
-  // inicializa todos os elementos da matriz com 0, por seguranca
-  for (i = 0; i < mat->tamx; i++)
-  {
-    for (j = 0; j < mat->tamy; j++)
-    {
-      mat->m[i][j] = 0;
-      escreveMemLog((long int)(&(mat->m[i][j])), sizeof(double));
-    }
-  }
-}
-
-void inicializaMatrizAleatoria(mat_tipo *mat)
-// Descricao: inicializa mat com valores aleatorios
-// Entrada: mat
-// Saida: mat
-{
-  int i, j;
-  // inicializa matriz com valores aletorios entre 0 e INITRANDOMRANGE
-  for (i = 0; i < mat->tamx; i++)
-  {
-    for (j = 0; j < mat->tamy; j++)
-    {
-      mat->m[i][j] = drand48() * INITRANDOMRANGE;
-      escreveMemLog((long int)(&(mat->m[i][j])), sizeof(double));
-    }
-  }
-}
-
 void imprimeMatriz(mat_tipo *mat)
 // Descricao: imprime a matriz com a identificacao de linhas e colunas
 // Entrada: mat
@@ -182,55 +148,6 @@ void criarArquivoDaMatriz(mat_tipo *mat, char *nomeDoArquvo)
   fclose(arquivo);
 }
 
-void escreveElemento(mat_tipo *mat, int x, int y, double v)
-// Descricao: atribui o valor v ao elemento (x,y) de mat
-// Entrada: mat, x, y, v
-// Saida: mat
-{
-  // verifica se x e y sao validos
-  erroAssert((x < 0) || (x >= mat->tamx), "Indice invalido");
-  erroAssert((y < 0) || (y >= mat->tamy), "Indice invalido");
-
-  mat->m[x][y] = v;
-  escreveMemLog((long int)(&(mat->m[x][y])), sizeof(double));
-}
-
-double leElemento(mat_tipo *mat, int x, int y)
-// Descricao: retorna o elemento (x,y) de mat
-// Entrada: mat, x, y
-// Saida: mat[x][y]
-{
-  // verifica se x e y sao validos
-  erroAssert((x < 0) || (x >= mat->tamx), "Indice invalido");
-  erroAssert((y < 0) || (y >= mat->tamy), "Indice invalido");
-
-  leMemLog((long int)(&(mat->m[x][y])), sizeof(double));
-  return mat->m[x][y];
-}
-
-void copiaMatriz(mat_tipo *src, mat_tipo *dst)
-// Descricao: faz uma copia de src em dst
-// Entrada: src
-// Saida: dst
-{
-  int i, j;
-
-  // cria novamente a matriz dst para ajustar as suas dimensoes
-  criaMatriz(dst, src->tamx, src->tamy);
-  // inicializa a matriz dst como nula
-  inicializaMatrizNula(dst);
-  // copia os elementos da matriz src
-  for (i = 0; i < src->tamx; i++)
-  {
-    for (j = 0; j < src->tamy; j++)
-    {
-      dst->m[i][j] = src->m[i][j];
-      leMemLog((long int)(&(src->m[i][j])), sizeof(double));
-      escreveMemLog((long int)(&(dst->m[i][j])), sizeof(double));
-    }
-  }
-}
-
 void somaMatrizes(mat_tipo *a, mat_tipo *b, mat_tipo *c)
 // Descricao: soma as matrizes a e b e armazena o resultado em c
 // Entrada: a, b
@@ -243,7 +160,6 @@ void somaMatrizes(mat_tipo *a, mat_tipo *b, mat_tipo *c)
 
   // inicializa a matriz c garantindo a compatibilidade das dimensoes
   criaMatriz(c, a->tamx, a->tamy);
-  inicializaMatrizNula(c);
 
   // faz a soma elemento a elemento
   for (i = 0; i < a->tamx; i++)
@@ -269,7 +185,6 @@ void multiplicaMatrizes(mat_tipo *a, mat_tipo *b, mat_tipo *c)
 
   // cria e inicializa a matriz c
   criaMatriz(c, a->tamx, b->tamy);
-  inicializaMatrizNula(c);
 
   // realiza a multiplicacao de matrizes
   for (i = 0; i < c->tamx; i++)

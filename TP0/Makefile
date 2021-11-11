@@ -28,11 +28,10 @@ CFLAGS = -Wall -c -I$(INC)
 EXE = $(BIN)/matop
 
 all: $(EXE)
-	$(EXE) -t -p multlog.out -1 matriz_100.txt -2 matriz_100.txt -o response.txt
-	$(EXE) -t -p transplog.out -1 matriz_100.txt -o response.txt
-	$(EXE) -s -p somalog.out -1 matriz_100.txt -2 matriz_100.txt -o response.txt
-	
-	
+	$(EXE) -t -p transplog.out -1 matriz.txt -o response-t.txt
+	$(EXE) -m -p multlog.out -1 matriz.txt -2 matriz.txt -o response-m.txt
+	$(EXE) -s -p somalog.out -1 matriz.txt -2 matriz.txt -o response-s.txt
+
 	
 $(BIN)/matop: $(OBJS)
 	$(CC) -o $(BIN)/matop $(OBJS) $(LIBS)

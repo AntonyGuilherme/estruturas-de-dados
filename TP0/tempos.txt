@@ -1,3 +1,0 @@
-// tamanho multiplicação soma transposição
-100 0.223281000 0.238295000 0.250252000
-200
