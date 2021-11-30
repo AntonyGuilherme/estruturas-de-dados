@@ -8,7 +8,7 @@
 #include "url.hpp"
 #include "leitorDeArquivo.hpp"
 #include "escalonador.hpp"
-
+#include "arraylist.hpp"
 void splitString(std::string *source, std::vector<std::string> *vetor)
 {
 
@@ -68,8 +68,19 @@ void isHostAdicionado(std::vector<Host>& hosts, std::string url){
 
 int main()
 {
-    URL url("http://globoesporte.com/spfc/index.html");
 
+    URL url("http://globoesporte.com/spfc/index.html");
+    ArrayList<URL> vetorTeste(2);
+    vetorTeste.inserir(0,&url);
+    vetorTeste.inserir(1,&url);
+    vetorTeste.size();
+
+    for(int i =0; i < vetorTeste.size() ; i++){
+        std::cout << vetorTeste[i]->getUrl() << std::endl;
+    }
+
+
+    /*
     std::cout << url.getProfundidade() << " " << url.getUrl() << std::endl;
     
     SplitString splitString;
@@ -88,7 +99,7 @@ int main()
 
     escalonador.escalonarURLsDoHost("www.globoesporte.com");
     escalonador.visualizarHosts();
-
+    */
     
 
     /*
