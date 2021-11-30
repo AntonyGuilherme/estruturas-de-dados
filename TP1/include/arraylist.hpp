@@ -44,7 +44,14 @@ T* ArrayList<T>::operator[](int index){
 template<class T>
 void ArrayList<T>::inserir(int index,T * objeto){
 
+    if(index < 0 || index >= this->size()){
+        throw "Erro na inserção do elemento";
+    }
+
     this->array[index] = objeto;
 }
+
+void remover(int inicio , int elementos = 1);
+
 
 #endif
