@@ -55,8 +55,9 @@ void ArrayList<T>::inserir(int index,T * objeto){
 template<class T>
 void ArrayList<T>::remover(int inicio , int elementos = 1){
 
-    for(int index = inicio; index < (index+elementos) ; index++){
+    for(int index = 0 ; index < elementos ; index++){
 
+        this->array[inicio+index] = this->array[(inicio+elementos)+index];
 
     }
 
