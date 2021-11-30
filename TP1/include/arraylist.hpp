@@ -15,6 +15,7 @@ public :
     int size();
     void inserir(int index , T*);
     T* operator[](int index);
+    void remover(int index, int elementos = 1);
 };
 
 
@@ -51,7 +52,15 @@ void ArrayList<T>::inserir(int index,T * objeto){
     this->array[index] = objeto;
 }
 
-void remover(int inicio , int elementos = 1);
+template<class T>
+void ArrayList<T>::remover(int inicio , int elementos = 1){
+
+    for(int index = inicio; index < (index+elementos) ; index++){
+
+
+    }
+
+}
 
 
 #endif
