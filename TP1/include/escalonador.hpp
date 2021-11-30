@@ -3,7 +3,9 @@
 
 #include <string>
 #include <vector>
-
+#include "splitString.hpp"
+#include "host.hpp"
+#include <iostream>
 /**
     * ADD_URLS <quantidade>: adiciona ao escalonador as URLs informadas nas linhas seguintes.
     * O parâmetro <quantidade> indica quantas linhas serão lidas antes do próximo comando.
@@ -20,15 +22,16 @@ class Escalonador
 {
 
 public:
-    void adicionarURLs();
+    void adicionarURLs(std::string url);
     void escalanoarTodasAsURLs();
     void escalonarURLs(int quantidadeDeURLs);
-    void esclaonarURLsDoHost(std::string host);
+    void escalonarURLsDoHost(std::string host);
     void visualizarURLsDoHost(std::string host);
     void visualizarHosts();
     void limparHosts(std::string host);
 
 private:
+    std::vector<Host> hosts;
     void escalonarURLs(std::vector<std::string> * urls);
 
 

@@ -7,6 +7,7 @@
 #include "splitString.hpp"
 #include "url.hpp"
 #include "leitorDeArquivo.hpp"
+#include "escalonador.hpp"
 
 void splitString(std::string *source, std::vector<std::string> *vetor)
 {
@@ -76,20 +77,19 @@ int main()
     std::string conteudo;
     std::vector<Host> hosts;
 
+    Escalonador escalonador;
+
     while(leitorDoArquivo.getConteudoDaLinha(conteudo)){
-        if(std::string::npos == conteudo.find("ftp."))
-            isHostAdicionado(hosts,conteudo);
+        
+        escalonador.adicionarURLs(conteudo);
     }
 
-     for(auto& hostArmazenado : hosts){
-        std::cout << hostArmazenado.getNome() << std::endl;
+    escalonador.escalanoarTodasAsURLs();
 
-        for(auto &url : hostArmazenado.getUrlsDisponiveis()){
-            std::cout << "  " << url << std::endl;
-        }
+    escalonador.escalonarURLsDoHost("www.globoesporte.com");
+    escalonador.visualizarHosts();
 
-
-     }
+    
 
     /*
    // std::cout << host.getNome();
