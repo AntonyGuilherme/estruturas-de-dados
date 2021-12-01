@@ -70,10 +70,13 @@ int main()
 {
 
     URL url("http://globoesporte.com/spfc/index.html");
-    ArrayList<URL> vetorTeste(2);
-    vetorTeste.inserir(0,&url);
-    vetorTeste.inserir(1,&url);
-    vetorTeste.size();
+    ArrayList<URL> vetorTeste(1);
+    vetorTeste.inserir(0,new URL("http://globoesporte.com/spfc/index.html"));
+    //vetorTeste.inserir(1,new URL("http://globoesporte.com/spfc/index.html"));
+    vetorTeste.remover(0,1);
+    if( vetorTeste[0] == nullptr){
+        std::cout << "Remocao"  << std::endl;
+    }
 
     for(int i =0; i < vetorTeste.size() ; i++){
         std::cout << vetorTeste[i]->getUrl() << std::endl;

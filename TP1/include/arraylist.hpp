@@ -53,13 +53,23 @@ void ArrayList<T>::inserir(int index,T * objeto){
 }
 
 template<class T>
-void ArrayList<T>::remover(int inicio , int elementos = 1){
+void ArrayList<T>::remover(int inicio , int elementos){
 
-    for(int index = 0 ; index < elementos ; index++){
+    for(int index = inicio ; index <= elementos ; index++){
+        
+        delete this->array[index];
 
-        this->array[inicio+index] = this->array[(inicio+elementos)+index];
-
+        if( (elementos+index) < this->size() ){
+            
+            this->array[index] = this->array[elementos+index];
+            this->array[elementos+index] = nullptr;
+        }
+        else{
+            this->array[index] = nullptr;
+        }
     }
+
+    this->tamanho -= elementos;
 
 }
 
