@@ -8,7 +8,11 @@
 #include "url.hpp"
 #include "leitorDeArquivo.hpp"
 #include "escalonador.hpp"
-#include "arraylist.hpp"
+#include "lista.hpp"
+#include "itemFila.hpp"
+#include "fila.hpp"
+
+
 void splitString(std::string *source, std::vector<std::string> *vetor)
 {
 
@@ -69,6 +73,29 @@ void isHostAdicionado(std::vector<Host>& hosts, std::string url){
 int main()
 {
 
+    /*
+    ItemFila<URL> * item = new ItemFila<URL>(new URL("http://globoesporte.com/spfc/index.html"));
+    ItemFila<URL> * item2 = new ItemFila<URL>(new URL("http://globoesporte.com/spfc/2index.html"),item);
+    std::cout << item2->getValorDoObjetoArmazenado()->getUrl() << std::endl;
+    std::cout << item2->getProximoItem()->getValorDoObjetoArmazenado()->getUrl() << std::endl;
+    */
+    Fila<URL> * fila = new Fila<URL>();
+
+    fila->inserir(new URL("http://globoesporte.com/spfc/index.html1"));
+    fila->inserir(new URL("http://globoesporte.com/spfc/index.html2"));
+    fila->inserir(new URL("http://globoesporte.com/spfc/index.html3"));
+    fila->inserir(new URL("http://globoesporte.com/spfc/index.html4"));
+    fila->inserir(new URL("http://globoesporte.com/spfc/index.html5"));
+    fila->inserir(new URL("http://globoesporte.com/spfc/index.html6"));
+
+    ItemFila<URL> * auxiliar = fila->getPrimeiro(); 
+    while(auxiliar != nullptr){
+        
+        std::cout << auxiliar->getValorDoObjetoArmazenado()->getUrl() << std::endl;
+        auxiliar = auxiliar->getProximoItem();
+    }
+
+    /*
     URL url("http://globoesporte.com/spfc/index.html");
     ArrayList<URL> vetorTeste(1);
     vetorTeste.inserir(0,new URL("http://globoesporte.com/spfc/index.html"));
@@ -81,7 +108,7 @@ int main()
     for(int i =0; i < vetorTeste.size() ; i++){
         std::cout << vetorTeste[i]->getUrl() << std::endl;
     }
-
+    */
 
     /*
     std::cout << url.getProfundidade() << " " << url.getUrl() << std::endl;
