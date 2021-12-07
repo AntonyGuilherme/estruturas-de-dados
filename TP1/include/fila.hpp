@@ -24,7 +24,7 @@ public:
     Fila(){};
     Fila(T *objeto);
     void inserir(T *item);
-    void remover();
+    T remover();
     ItemFila<T> * getPrimeiro();
 };
 
@@ -59,7 +59,24 @@ void Fila<T>::inserir(T *objeto)
 }
 
 template <class T>
-void Fila<T>::remover() {}
+T Fila<T>::remover() {
+    
+    if(this->ultimo == nullptr){
+        throw "Removendo um item nulo";
+    }
+
+    T auxiliarParaRetorno = *this->ultimo;
+    T * auxiliarParaRemocao = this->ultimo;
+    
+    //reajustando a ultima posicao
+    this->ultimo = this->ultimo->getAnteriorItem();
+
+    if(this->ultimo != nullptr)
+        this->ultimo->inserirProximo(nullptr);
+        
+
+    delete auxiliarParaRemocao;
+}
 
 template <class T>
 ItemFila<T> * Fila<T>::getPrimeiro()
@@ -67,5 +84,6 @@ ItemFila<T> * Fila<T>::getPrimeiro()
 
     return this->primeiro;
 }
+
 
 #endif
