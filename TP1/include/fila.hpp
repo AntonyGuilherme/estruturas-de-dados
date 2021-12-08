@@ -10,6 +10,7 @@
 // remoção Início
 
 #include "itemFila.hpp"
+#include "url.hpp"
 
 template <typename T>
 class Fila
@@ -23,9 +24,11 @@ private:
 public:
     Fila(){};
     Fila(T *objeto);
+    ~Fila();
     void inserir(T *item);
     T remover();
-    ItemFila<T> * getPrimeiro();
+    ItemFila<T> *getPrimeiroItem();
+    ItemFila<T> *getUltimoItem();
 };
 
 template <class T>
@@ -52,38 +55,63 @@ void Fila<T>::inserir(T *objeto)
     }
     else
     {
-       ItemFila<T> * item = new ItemFila<T>(objeto, this->ultimo);
-       this->ultimo->inserirProximo(item);
+        ItemFila<T> *item = new ItemFila<T>(objeto, this->ultimo);
+        this->ultimo->inserirProximo(item);
         this->ultimo = item;
     }
 }
 
 template <class T>
-T Fila<T>::remover() {
-    
-    if(this->ultimo == nullptr){
+T Fila<T>::remover()
+{
+
+    if (this->ultimo == nullptr)
+    {
         throw "Removendo um item nulo";
     }
 
     T auxiliarParaRetorno = *this->ultimo;
-    T * auxiliarParaRemocao = this->ultimo;
-    
+    T *auxiliarParaRemocao = this->ultimo;
+
     //reajustando a ultima posicao
     this->ultimo = this->ultimo->getAnteriorItem();
 
-    if(this->ultimo != nullptr)
+    if (this->ultimo != nullptr)
         this->ultimo->inserirProximo(nullptr);
-        
 
     delete auxiliarParaRemocao;
 }
 
 template <class T>
-ItemFila<T> * Fila<T>::getPrimeiro()
+ItemFila<T> *Fila<T>::getPrimeiroItem()
 {
 
     return this->primeiro;
 }
 
+template <class T>
+ItemFila<T> *Fila<T>::getUltimoItem()
+{
+
+    return this->ultimo;
+}
+
+template <class T>
+Fila<T>::~Fila()
+{
+
+    ItemFila<T> *auxiliar = this->primeiro;
+    ItemFila<T> *auxiliarProximo;
+
+    while (auxiliar != nullptr)
+    {
+
+        auxiliarProximo = auxiliar->getProximoItem();
+        std::cout << "Apagando " << auxiliar->getValorDoObjetoArmazenado() << std::endl;
+        delete auxiliar;
+
+        auxiliar = auxiliarProximo;
+    }
+}
 
 #endif

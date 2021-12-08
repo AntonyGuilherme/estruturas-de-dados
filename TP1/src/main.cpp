@@ -88,12 +88,14 @@ int main()
     fila->inserir(new URL("http://globoesporte.com/spfc/index.html5"));
     fila->inserir(new URL("http://globoesporte.com/spfc/index.html6"));
 
-    ItemFila<URL> * auxiliar = fila->getPrimeiro(); 
+    ItemFila<URL> * auxiliar = fila->getUltimoItem(); 
     while(auxiliar != nullptr){
         
         std::cout << auxiliar->getValorDoObjetoArmazenado()->getUrl() << std::endl;
-        auxiliar = auxiliar->getProximoItem();
+        auxiliar = auxiliar->getAnteriorItem();
     }
+
+    delete fila;
 
     /*
     URL url("http://globoesporte.com/spfc/index.html");
