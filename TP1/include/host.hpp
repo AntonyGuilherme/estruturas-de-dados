@@ -3,18 +3,21 @@
 
 #include <string>
 #include <vector>
+#include "lista.hpp"
+#include "url.hpp"
 
 class Host
 {
 
 private:
-    std::vector<std::string> urls;
+    Lista<URL> urls;
     std ::string nome;
 
 public:
     Host(std::string nome);
     void adicionarURL(std ::string url);
-    std::vector<std::string> getUrlsDisponiveis();
+    void imprimirURLs();
+    void escalonarURLs();
     std::string getNome();
 };
 

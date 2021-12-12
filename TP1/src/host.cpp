@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 
+/*
 Host::Host(std::string nome){
 
     this->nome = nome;
@@ -14,10 +15,6 @@ std::string Host::getNome(){
 
 void Host::adicionarURL(std::string url){
 
-    this->urls.push_back(url);
+    //this->urls.inserir(url);
 }
-
-std::vector<std::string> Host::getUrlsDisponiveis(){
-    
-    return this->urls;
-}
+*/

@@ -29,6 +29,7 @@ public:
     T remover();
     ItemFila<T> *getPrimeiroItem();
     ItemFila<T> *getUltimoItem();
+    bool isFilaVazia();
 };
 
 template <class T>
@@ -70,16 +71,20 @@ T Fila<T>::remover()
         throw "Removendo um item nulo";
     }
 
-    T auxiliarParaRetorno = *this->ultimo;
-    T *auxiliarParaRemocao = this->ultimo;
+    T auxiliarParaRetorno = *this->ultimo->getValorDoObjetoArmazenado();
+    ItemFila<T> *auxiliarParaRemocao = this->ultimo;
 
     //reajustando a ultima posicao
     this->ultimo = this->ultimo->getAnteriorItem();
 
     if (this->ultimo != nullptr)
         this->ultimo->inserirProximo(nullptr);
-
+    else    
+        this->primeiro = nullptr;
+    
     delete auxiliarParaRemocao;
+
+    return auxiliarParaRetorno;
 }
 
 template <class T>
@@ -112,6 +117,13 @@ Fila<T>::~Fila()
 
         auxiliar = auxiliarProximo;
     }
+}
+
+template <class T>
+bool Fila<T>::isFilaVazia()
+{
+
+    return this->ultimo == nullptr;
 }
 
 #endif

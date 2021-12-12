@@ -13,6 +13,7 @@
 #include "fila.hpp"
 
 
+/*
 void splitString(std::string *source, std::vector<std::string> *vetor)
 {
 
@@ -68,7 +69,7 @@ void isHostAdicionado(std::vector<Host>& hosts, std::string url){
 
 
 }
-
+*/
 
 int main()
 {
@@ -79,23 +80,28 @@ int main()
     std::cout << item2->getValorDoObjetoArmazenado()->getUrl() << std::endl;
     std::cout << item2->getProximoItem()->getValorDoObjetoArmazenado()->getUrl() << std::endl;
     */
-    Fila<URL> * fila = new Fila<URL>();
+    Lista<URL> * lista = new Lista<URL>(10);
 
-    fila->inserir(new URL("http://globoesporte.com/spfc/index.html1"));
-    fila->inserir(new URL("http://globoesporte.com/spfc/index.html2"));
-    fila->inserir(new URL("http://globoesporte.com/spfc/index.html3"));
-    fila->inserir(new URL("http://globoesporte.com/spfc/index.html4"));
-    fila->inserir(new URL("http://globoesporte.com/spfc/index.html5"));
-    fila->inserir(new URL("http://globoesporte.com/spfc/index.html6"));
+    lista->inserir(new URL("http://globoesporte.com/spfc/index.html1"));
+    lista->inserir(new URL("http://globoesporte.com/spfc/index.html2"));
+    lista->inserir(new URL("http://globoesporte.com/spfc/index.html3"));
+    lista->inserir(new URL("http://globoesporte.com/spfc/index.html4"));
+    lista->inserir(new URL("http://globoesporte.com/spfc/index.html5"));
+    lista->inserir(new URL("http://globoesporte.com/spfc/index.html6"));
+    lista->inserir(4,new URL("http://globoesporte.com/spfc/index.htmlX"));
+    lista->inserir(0,new URL("http://globoesporte.com/spfc/index.htmlXX"));
+    lista->inserir(8,new URL("http://globoesporte.com/spfc/index.htmlXX"));
+    lista->inserir(new URL("http://globoesporte.com/spfc/index.htmlXX"));
 
-    ItemFila<URL> * auxiliar = fila->getUltimoItem(); 
-    while(auxiliar != nullptr){
-        
-        std::cout << auxiliar->getValorDoObjetoArmazenado()->getUrl() << std::endl;
-        auxiliar = auxiliar->getAnteriorItem();
+    lista->incrementarTamanho(1);
+
+    lista->inserir(new URL("http://globoesporte.com/spfc/index.htmlXX"));
+
+    for(int i = 0; i < lista->size(); i++){
+        std::cout << lista->get(i)->getUrl() << std::endl;
     }
 
-    delete fila;
+    delete lista;
 
     /*
     URL url("http://globoesporte.com/spfc/index.html");

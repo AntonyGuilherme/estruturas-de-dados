@@ -1,5 +1,5 @@
 #include "escalonador.hpp"
-
+/*
 void Escalonador::adicionarURLs(std::string url)
 {
 
@@ -95,3 +95,4 @@ void Escalonador::visualizarHosts()
         std::cout << host.getNome() << std::endl;
     }
 }
+*/
