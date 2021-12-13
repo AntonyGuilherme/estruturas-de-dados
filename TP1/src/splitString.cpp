@@ -2,7 +2,7 @@
 #include <iostream>
 // https://www.javatpoint.com/how-to-split-strings-in-cpp
 
-std::vector<std::string> *SplitString::quebrarStringBaseadoEm(std::string *conteudo, char token)
+std::vector<std::string> SplitString::quebrarStringBaseadoEm(std::string *conteudo, char token)
 {
 
     // pedaco encontrado no conteudo da string buscada
@@ -12,13 +12,13 @@ std::vector<std::string> *SplitString::quebrarStringBaseadoEm(std::string *conte
     std::stringstream streamData(*conteudo);
 
     // lista que contém os pedaços encontrados na string
-    std::vector<std::string> *pedacosEncontrados = new std::vector<std::string>;
+    std::vector<std::string> pedacosEncontrados;
 
     // navegando pelos padaços encontrados no conteudo da string informada
     while (std::getline(streamData, pedaco, '/'))
     {
         if (pedaco.size())
-            pedacosEncontrados->push_back(pedaco);
+            pedacosEncontrados.push_back(pedaco);
     }
 
     streamData.clear();
@@ -54,4 +54,19 @@ std::string SplitString::getPedacoDaStringQuebrada(std::string *conteudo, char t
     std::cout << *conteudo << std::endl;
 
     throw "Posicao nao encontrada";
+}
+
+std::string SplitString::removerPedacoDaString(std::string fonte,std::string conteudoParaRemocao){
+
+
+    std::string resultado = fonte;
+    size_t pos;
+
+    while ((pos = fonte.find(conteudoParaRemocao)) != std::string::npos) {
+
+        resultado = resultado.append(fonte.substr(0, pos));
+        resultado.erase(0, pos + conteudoParaRemocao.length());
+    }
+
+    return resultado;
 }

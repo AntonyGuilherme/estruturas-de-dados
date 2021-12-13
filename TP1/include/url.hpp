@@ -10,6 +10,8 @@ private:
     std::string url;
     int nivelDeProfundidade;
     void calcularNivelDeProfundidade();
+    std::string processarURL(std::string url);
+    SplitString split;
 
 public:
     URL(std::string url);

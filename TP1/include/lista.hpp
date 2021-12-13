@@ -5,148 +5,248 @@
 
 #include <cstdlib>
 #include <iostream>
+#include "item.hpp"
+#include <stdexcept>
 
 template <typename T>
 class Lista
 {
 
 private:
-    int tamanho;
-    int tamanhoOcupado;
-    T** lista;
+    int tamanho = 0;
+    Item<T> * primeiro = nullptr;
+    Item<T> * ultimo = nullptr;
 
-
-public :
-    Lista(int tamanho);
+public:
+    Lista(){};
+    Lista(T* objeto);
     ~Lista();
     int size();
-    void inserir(int index , T*);
-    void inserir(T*);
-    T* operator[](int index);
-    T* get(int index);
+    void inserir(int index, T *);
+    void inserir(T *);
+    void inserir(Item<T> *,T *);
+    T *get(int index);
+    Item<T> * getItem(int index);
+    Item<T> * getPrimeiroItem();
+    Item<T> * getUltimoItem();
+    void inserirPrimeiro(Item<T> *);
     void remover(int index, int elementos = 1);
-    void incrementarTamanho(int complemento);
 };
 
+template <class T>
+Lista<T>::Lista(T* objeto)
+{   
+    this->tamanho = 0;
+    this->inserir(objeto);
+}
 
-template<class T>
-Lista<T>::Lista(int tamanho){
+template <class T>
+int Lista<T>::size()
+{
+
+    return this->tamanho;
+}
+
+
+template <class T>
+T * Lista<T>::get(int index)
+{
+
+    Item<T> * auxiliar = this->getItem(index);
     
-    this->tamanho = tamanho;
-    this->lista = (T**) malloc(sizeof(T**)*tamanho);
-    this->tamanhoOcupado = 0;
+    if(auxiliar != nullptr) return auxiliar->getValorDoObjetoArmazenado();
+
+    return nullptr;
 }
 
-template<class T>
-int Lista<T>::size(){
+template <class T>
+Item<T> * Lista<T>::getItem(int index)
+{
 
-    return this->tamanhoOcupado;
-}
-
-template<class T>
-T* Lista<T>::operator[](int index){
-
-    return this->get(index);
-}
-
-template<class T>
-T* Lista<T>::get(int index){
-
-    if(index  >= this->size()){
+    if (index >= this->size())
+    {
         return nullptr;
     }
 
-    return this->lista[index];
+    Item<T> * auxiliar = this->primeiro;
+    int indexAuxiliar = 0;
+
+    while(auxiliar != nullptr){
+
+        if(indexAuxiliar == index) return auxiliar;
+
+        auxiliar = auxiliar->getProximoItem();
+        indexAuxiliar++;
+    }
+
+
+    return nullptr;
 }
 
 template<class T>
-void Lista<T>::inserir(int index,T * objeto){
+void Lista<T>::inserir(Item<T> * baseInsercao , T *objeto){
 
-    if(index < 0 || index >= this->tamanho || (this->tamanhoOcupado + 1) >= this->tamanho){
-        throw "Erro na inserção do elemento";
+    if(objeto == nullptr){
+        throw std::invalid_argument("Objeto de insercao e invalido.");
     }
 
-    for(int i = (this->tamanhoOcupado + 1); i > index; i--)
-        this->lista[i] = this->lista[i-1];
+    if(baseInsercao == nullptr){
+        return this->inserir(objeto);
+    }
+
+    Item<T> * novoItem = new Item<T>(objeto,baseInsercao->getAnteriorItem(),baseInsercao);
     
-    this->lista[index] = objeto;
-
-    this->tamanhoOcupado++;
-}
-
-template<class T>
-void Lista<T>::inserir(T * objeto){
-
-    int index = this->tamanhoOcupado;
-
-    std::cout << index << " " << this->tamanho << std::endl;
-
-     if(index < 0 || index >= this->tamanho){
-       throw "Erro na inserção do elemento";
+    if(baseInsercao->getAnteriorItem() != nullptr){
+        baseInsercao->getAnteriorItem()->inserirProximo(novoItem);
+    }
+    else{ // caso nao haja nenhum item anterior o item em questao eh o primeiro
+        this->primeiro = novoItem;
     }
 
-    if(this->lista[index] != nullptr){
-        delete this->lista[index];
-    }
+    baseInsercao->inserirAnterior(novoItem);
 
-    this->lista[index] = objeto;
+    this->tamanho++;
 
-    this->tamanhoOcupado++;
 }
 
-template<class T>
-void Lista<T>::remover(int inicio , int elementos){
-
-    for(int index = inicio ; index <= elementos ; index++){
+template <class T>
+void Lista<T>::inserir(int index, T *objeto)
+{   
+    if(index  > this->tamanho){
         
-        delete this->lista[index];
-
-        if( (elementos+index) < this->size() ){
-            
-            this->lista[index] = this->lista[elementos+index];
-            this->lista[elementos+index] = nullptr;
-        }
-        else{
-            this->lista[index] = nullptr;
-        }
+        throw std::invalid_argument("Index invalido");
     }
+    else if(index == 0){
 
-    this->tamanho -= elementos;
+        if(this->primeiro == nullptr) {
+            this->inserir(objeto);
+            return;
+        }    
+        
+        Item<T> * novoItem = new Item<T>(objeto,nullptr,this->primeiro);
+        this->primeiro->inserirAnterior(novoItem);
+        this->primeiro = novoItem;
 
-}
+        if(this->ultimo == nullptr){
+            this->ultimo = this->primeiro->getProximoItem();
+        }
 
-template<class T>
-void Lista<T>::incrementarTamanho(int complemento){
-
-    int novoTamanho = complemento + this->tamanho;
-
-    if( novoTamanho <= this->tamanho){  
+        this->tamanho++;
+        return;
+        
+    }else if(index == this->tamanho){
+        this->inserir(objeto);
         return;
     }
 
-   this->lista = (T**) realloc(this->lista,sizeof(T**)*novoTamanho);
+    Item<T> * auxiliar = this->getItem(index);   
 
-   this->tamanho = novoTamanho;
+    if(auxiliar == nullptr)
+        throw std::invalid_argument("Index nao localizado");
 
-    std::cout << novoTamanho << std::endl;
+    Item<T> * novoItem = new Item<T>(objeto,auxiliar->getAnteriorItem(),auxiliar);
+    auxiliar->getAnteriorItem()->inserirProximo(novoItem);
+    auxiliar->inserirAnterior(novoItem);
 
-    if(this->lista == nullptr){
-        throw "Erro na realocacao!";
+    this->tamanho++;
+  
+}
+
+template <class T>
+void Lista<T>::inserir(T *objeto)
+{
+    if (this->primeiro == nullptr)
+    {
+        this->primeiro = new Item<T>(objeto);
     }
+    else if (this->ultimo == nullptr)
+    {
+
+        this->ultimo = new Item<T>(objeto, this->primeiro);
+        this->primeiro->inserirProximo(this->ultimo);
+    }
+    else
+    {
+        Item<T> *item = new Item<T>(objeto, this->ultimo);
+        this->ultimo->inserirProximo(item);
+        this->ultimo = item;
+    }
+
+    this->tamanho++;
+
+}
+
+template <class T>
+void Lista<T>::remover(int inicio, int elementos)
+{   
+    if(inicio < 0 ){
+        throw "remocao indevida";
+    }
+
+    Item<T> *auxiliar = this->getItem(inicio);
+    Item<T> *auxiliarAnterior = nullptr;
+
+    if(auxiliar != nullptr) auxiliarAnterior = auxiliar->getAnteriorItem();
+        
+    Item<T> *auxiliarProximo;
+    int elementosRemovidos = 0;
+
+    while (auxiliar != nullptr && elementosRemovidos < elementos)
+    {
+
+        auxiliarProximo = auxiliar->getProximoItem();
+        delete auxiliar;
+
+        auxiliar = auxiliarProximo;
+        elementosRemovidos++;
+    }
+
+    if(auxiliarAnterior != nullptr)
+        auxiliarAnterior->inserirProximo(auxiliar);
+    else{
+        this->primeiro = auxiliar;
+    }
+
+    if(auxiliar != nullptr){
+        auxiliar->inserirAnterior(auxiliarAnterior);
+    }else{
+        this->ultimo = auxiliarAnterior;
+    }
+
 }
 
 template<class T>
-Lista<T>::~Lista(){
+Item<T> * Lista<T>::getPrimeiroItem(){
+    return this->primeiro;
+}
 
-    for(int i = 0; i < this->tamanho; i++){
+template<class T>
+Item<T> * Lista<T>::getUltimoItem(){
+    return this->ultimo;
+}
 
-        if(this->lista[i] != nullptr)
-            delete this->lista[i];
+template <class T>
+Lista<T>::~Lista()
+{
+
+    Item<T> *auxiliar = this->primeiro;
+    Item<T> *auxiliarProximo;
+
+    while (auxiliar != nullptr)
+    {
+
+        auxiliarProximo = auxiliar->getProximoItem();
+        delete auxiliar;
+        auxiliar = auxiliarProximo;
     }
-
-    delete this->lista;
 
 }
 
+
+template<class T>
+void Lista<T>::inserirPrimeiro(Item<T> * item){
+    this->primeiro = item;
+    item->inserirAnterior(nullptr);
+}
 
 #endif

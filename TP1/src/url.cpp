@@ -1,25 +1,24 @@
 #include "url.hpp"
-
+#include <iostream>
+//https://www.delftstack.com/pt/howto/cpp/split-string-in-cpp/
 
 URL::URL(std::string url){
 
-    this->url = url;
+    this->url = split.removerPedacoDaString(url,"www.");
 
     this->calcularNivelDeProfundidade();
 }
 
 void URL::calcularNivelDeProfundidade(){
 
-    SplitString split;
-    std::vector<std::string>* pedacos = split.quebrarStringBaseadoEm(&this->url,'/');
+    std::vector<std::string> pedacos = split.quebrarStringBaseadoEm(&this->url,'/');
     
     this->nivelDeProfundidade = -2;
 
-    for(auto& _ : *pedacos){
+    for(auto& _ : pedacos){
         this->nivelDeProfundidade++;
     }
 
-    delete pedacos;
 }
 
 int URL::getProfundidade(){

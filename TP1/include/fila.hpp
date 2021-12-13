@@ -9,7 +9,7 @@
 // Inserção: Trás ( última posição)
 // remoção Início
 
-#include "itemFila.hpp"
+#include "item.hpp"
 #include "url.hpp"
 
 template <typename T>
@@ -18,8 +18,8 @@ class Fila
 
 private:
     int tamanho;
-    ItemFila<T> *primeiro = nullptr;
-    ItemFila<T> *ultimo = nullptr;
+    Item<T> *primeiro = nullptr;
+    Item<T> *ultimo = nullptr;
 
 public:
     Fila(){};
@@ -27,8 +27,8 @@ public:
     ~Fila();
     void inserir(T *item);
     T remover();
-    ItemFila<T> *getPrimeiroItem();
-    ItemFila<T> *getUltimoItem();
+    Item<T> *getPrimeiroItem();
+    Item<T> *getUltimoItem();
     bool isFilaVazia();
 };
 
@@ -36,7 +36,7 @@ template <class T>
 Fila<T>::Fila(T *objeto)
 {
 
-    this->primeiro = new ItemFila<T>(objeto);
+    this->primeiro = new Item<T>(objeto);
 }
 
 template <class T>
@@ -46,17 +46,17 @@ void Fila<T>::inserir(T *objeto)
     if (this->primeiro == nullptr)
     {
 
-        this->primeiro = new ItemFila<T>(objeto);
+        this->primeiro = new Item<T>(objeto);
     }
     else if (this->ultimo == nullptr)
     {
 
-        this->ultimo = new ItemFila<T>(objeto, this->primeiro);
+        this->ultimo = new Item<T>(objeto, this->primeiro);
         this->primeiro->inserirProximo(this->ultimo);
     }
     else
     {
-        ItemFila<T> *item = new ItemFila<T>(objeto, this->ultimo);
+        Item<T> *item = new Item<T>(objeto, this->ultimo);
         this->ultimo->inserirProximo(item);
         this->ultimo = item;
     }
@@ -72,7 +72,7 @@ T Fila<T>::remover()
     }
 
     T auxiliarParaRetorno = *this->ultimo->getValorDoObjetoArmazenado();
-    ItemFila<T> *auxiliarParaRemocao = this->ultimo;
+    Item<T> *auxiliarParaRemocao = this->ultimo;
 
     //reajustando a ultima posicao
     this->ultimo = this->ultimo->getAnteriorItem();
@@ -88,14 +88,14 @@ T Fila<T>::remover()
 }
 
 template <class T>
-ItemFila<T> *Fila<T>::getPrimeiroItem()
+Item<T> *Fila<T>::getPrimeiroItem()
 {
 
     return this->primeiro;
 }
 
 template <class T>
-ItemFila<T> *Fila<T>::getUltimoItem()
+Item<T> *Fila<T>::getUltimoItem()
 {
 
     return this->ultimo;
@@ -105,14 +105,13 @@ template <class T>
 Fila<T>::~Fila()
 {
 
-    ItemFila<T> *auxiliar = this->primeiro;
-    ItemFila<T> *auxiliarProximo;
+    Item<T> *auxiliar = this->primeiro;
+    Item<T> *auxiliarProximo;
 
     while (auxiliar != nullptr)
     {
 
         auxiliarProximo = auxiliar->getProximoItem();
-        std::cout << "Apagando " << auxiliar->getValorDoObjetoArmazenado() << std::endl;
         delete auxiliar;
 
         auxiliar = auxiliarProximo;

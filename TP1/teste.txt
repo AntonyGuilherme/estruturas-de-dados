@@ -1,5 +1,14 @@
 http://www.globoesporte.com/page1.js?q=copa#group1
 ftp://ftp.globo.com
+http://www.globo.com/cruzeiro/maluco/teste1
+http://www.globo.com/cruzeiro/maluco/teste/222
+http://www.globo.com/cruzeiro/maluco/teste/teste/teste/3
+http://www.globo.com/cruzeiro/maluco
+http://www.globo.com/cruzeiro/maluco
+http://www.globo.com/cruzeiro/maluco/teste/teste/3teste
+http://www.globo.com/cruzeiro/maluco
+http://www.globo.com/cruzeiro/maluco
+http://www.globo.com/cruzeiro/maluco
 http://www.globo.com/
 http://www.uol.com.br/
 http://www.superdownloads.com.br/

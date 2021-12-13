@@ -10,15 +10,19 @@ class Host
 {
 
 private:
-    Lista<URL> urls;
+    Lista<URL> * urls;
     std ::string nome;
 
 public:
     Host(std::string nome);
+    ~Host();
     void adicionarURL(std ::string url);
     void imprimirURLs();
-    void escalonarURLs();
-    std::string getNome();
+    int escalonarURLs(int quantidadeMaxima);
+    int escalonarURLs();
+    void limparURLs();
+    std::string * getNome();
+
 };
 
 #endif

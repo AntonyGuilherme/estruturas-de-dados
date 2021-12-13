@@ -9,9 +9,9 @@
 #include "leitorDeArquivo.hpp"
 #include "escalonador.hpp"
 #include "lista.hpp"
-#include "itemFila.hpp"
+#include "item.hpp"
 #include "fila.hpp"
-
+#include <stdexcept>
 
 /*
 void splitString(std::string *source, std::vector<std::string> *vetor)
@@ -71,116 +71,98 @@ void isHostAdicionado(std::vector<Host>& hosts, std::string url){
 }
 */
 
+void testesLista()
+{
+
+    Lista<URL> *urls = new Lista<URL>();
+    urls->inserir(0, new URL("http://www.globo.com/2"));
+    urls->inserir(0, new URL("http://www.globo.com/1"));
+    urls->inserir(0, new URL("http://www.globo.com/0"));
+    urls->inserir(3, new URL("http://www.globo.com/84"));
+    //urls->inserir(3, new URL("http://www.globo.com/84"));
+    urls->inserir(2, new URL("http://www.globo.com/42"));
+    urls->inserir(0, new URL("http://www.globo.com/42"));
+    urls->inserir(urls->getPrimeiroItem(), new URL("http://www.globo.com/4256"));
+    //urls->inserir(urls->getItem(7),new URL("http://www.globo.com/42562"));
+
+    Item<URL> *auxiliar = urls->getPrimeiroItem();
+
+    while (auxiliar != nullptr)
+    {
+
+        std::cout << auxiliar->getValorDoObjetoArmazenado()->getUrl() << std::endl;
+
+        auxiliar = auxiliar->getProximoItem();
+    }
+}
+
 int main()
 {
 
-    /*
-    ItemFila<URL> * item = new ItemFila<URL>(new URL("http://globoesporte.com/spfc/index.html"));
-    ItemFila<URL> * item2 = new ItemFila<URL>(new URL("http://globoesporte.com/spfc/2index.html"),item);
-    std::cout << item2->getValorDoObjetoArmazenado()->getUrl() << std::endl;
-    std::cout << item2->getProximoItem()->getValorDoObjetoArmazenado()->getUrl() << std::endl;
-    */
-    Lista<URL> * lista = new Lista<URL>(10);
-
-    lista->inserir(new URL("http://globoesporte.com/spfc/index.html1"));
-    lista->inserir(new URL("http://globoesporte.com/spfc/index.html2"));
-    lista->inserir(new URL("http://globoesporte.com/spfc/index.html3"));
-    lista->inserir(new URL("http://globoesporte.com/spfc/index.html4"));
-    lista->inserir(new URL("http://globoesporte.com/spfc/index.html5"));
-    lista->inserir(new URL("http://globoesporte.com/spfc/index.html6"));
-    lista->inserir(4,new URL("http://globoesporte.com/spfc/index.htmlX"));
-    lista->inserir(0,new URL("http://globoesporte.com/spfc/index.htmlXX"));
-    lista->inserir(8,new URL("http://globoesporte.com/spfc/index.htmlXX"));
-    lista->inserir(new URL("http://globoesporte.com/spfc/index.htmlXX"));
-
-    lista->incrementarTamanho(1);
-
-    lista->inserir(new URL("http://globoesporte.com/spfc/index.htmlXX"));
-
-    for(int i = 0; i < lista->size(); i++){
-        std::cout << lista->get(i)->getUrl() << std::endl;
-    }
-
-    delete lista;
-
-    /*
-    URL url("http://globoesporte.com/spfc/index.html");
-    ArrayList<URL> vetorTeste(1);
-    vetorTeste.inserir(0,new URL("http://globoesporte.com/spfc/index.html"));
-    //vetorTeste.inserir(1,new URL("http://globoesporte.com/spfc/index.html"));
-    vetorTeste.remover(0,1);
-    if( vetorTeste[0] == nullptr){
-        std::cout << "Remocao"  << std::endl;
-    }
-
-    for(int i =0; i < vetorTeste.size() ; i++){
-        std::cout << vetorTeste[i]->getUrl() << std::endl;
-    }
-    */
-
-    /*
-    std::cout << url.getProfundidade() << " " << url.getUrl() << std::endl;
-    
-    SplitString splitString;
-    LeitorDeArquivo leitorDoArquivo("teste.txt");
-    std::string conteudo;
-    std::vector<Host> hosts;
-
-    Escalonador escalonador;
-
-    while(leitorDoArquivo.getConteudoDaLinha(conteudo)){
-        
-        escalonador.adicionarURLs(conteudo);
-    }
-
-    escalonador.escalanoarTodasAsURLs();
-
-    escalonador.escalonarURLsDoHost("www.globoesporte.com");
-    escalonador.visualizarHosts();
-    */
-    
-
-    /*
-   // std::cout << host.getNome();
-
+    Escalonador *escalonador = new Escalonador();
+    LeitorDeArquivo *leitor = new LeitorDeArquivo("file.txt");
     std::string conteudoLido;
-    std::string ADICIONAR_URL = "ADD_URLS";
-    std::ifstream arquivo;
-    std::vector<std::string> listaDeTestes;
 
-    arquivo.open("file.txt");
+    while (leitor->getConteudoDaLinha(conteudoLido))
+    {   
+        
 
-    while (arquivo.good())
-    {
-
-        arquivo >> conteudoLido;
-
-        if (conteudoLido.compare(ADICIONAR_URL) == 0)
+        if (conteudoLido.compare("ADD_URLS") == 0)
         {
-            arquivo >> conteudoLido;
-            adicionarLinhas(&arquivo, &listaDeTestes, stoi(conteudoLido));
+            leitor->getConteudoDaLinha(conteudoLido);
+            int quantidade = std::stoi(conteudoLido);
+            int index = 0;
+
+            while (quantidade > index)
+            {
+
+                leitor->getConteudoDaLinha(conteudoLido);
+                escalonador->adicionarURLs(conteudoLido);
+                index++;
+            }
         }
-
-        std::cout << conteudoLido << std::endl;
+        else if (conteudoLido.compare("ESCALONA_TUDO") == 0)
+        {
+            escalonador->escalanoarTodasAsURLs();
+        }
+        else if (conteudoLido.compare("ESCALONA") == 0)
+        {
+            leitor->getConteudoDaLinha(conteudoLido);
+            int quantidade = std::stoi(conteudoLido);
+            escalonador->escalonarURLs(quantidade);
+        }
+        else if (conteudoLido.compare("ESCALONA_HOST") == 0)
+        {   
+            std::string host;
+            leitor->getConteudoDaLinha(host);
+            leitor->getConteudoDaLinha(conteudoLido);
+            int quantidade = std::stoi(conteudoLido);
+            escalonador->escalonarURLsDoHost(host,quantidade);
+        }
+        else if (conteudoLido.compare("VER_HOST") == 0)
+        {
+            leitor->getConteudoDaLinha(conteudoLido);
+            escalonador->visualizarURLsDoHost(conteudoLido);
+        }
+        else if (conteudoLido.compare("LISTA_HOSTS") == 0)
+        {
+            escalonador->visualizarHosts();
+        }
+        else if (conteudoLido.compare("LIMPA_HOST") == 0)
+        {
+            leitor->getConteudoDaLinha(conteudoLido);
+            escalonador->limparHost(conteudoLido);
+        }
+        else if (conteudoLido.compare("LIMPA_TUDO") == 0)
+        {
+            escalonador->limparTudo();
+        }
+        else
+        {
+            std::cout<< conteudoLido << std::endl;
+            break;
+        }
     }
 
-    std::cout << "URLS ENCONTRADAS" << std::endl
-              << std::endl;
-
-    for (auto &line : listaDeTestes)
-    {
-
-        std ::cout << line << std::endl;
-    }
-
-    std::vector<std::string> teste;
-    splitString(&listaDeTestes[0], &teste);
-
-    for (auto &t : teste)
-    {
-        std ::cout << t << std::endl;
-    }
-
-    arquivo.close();
-    */
+    return 0;
 }
