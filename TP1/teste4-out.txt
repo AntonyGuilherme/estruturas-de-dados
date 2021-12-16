@@ -1,10 +1,10 @@
-http://ge.globo.com/futebol/futebol-internacional/futebol-espanhol/
-http://ge.globo.com/futebol/futebol-internacional/futebol-espanhol/times/real-madrid/
-http://ge.globo.com/futebol/futebol-internacional/futebol-espanhol/
-http://ge.globo.com/futebol/futebol-internacional/futebol-espanhol/times/real-madrid/
-http://youtube.com/
+http://ge.globo.com/futebol/futebol-internacional/futebol-espanhol
+http://ge.globo.com/futebol/futebol-internacional/futebol-espanhol/times/real-madrid
+http://ge.globo.com/futebol/futebol-internacional/futebol-espanhol
+http://ge.globo.com/futebol/futebol-internacional/futebol-espanhol/times/real-madrid
+http://youtube.com
 http://youtube.com/watch?v=lBuF54ZhZFo
-http://overleaf.com/project/
+http://overleaf.com/project
 ge.globo.com
 youtube.com
 overleaf.com

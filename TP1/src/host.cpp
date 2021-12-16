@@ -17,16 +17,22 @@ void Host::adicionarURL(std::string url)
 {
 
     URL *novaUrl = new URL(url);
-    Item<URL> * auxiliar = this->urls->getPrimeiroItem();
-    URL * urlAdicionada;
+    Item<URL> *auxiliar = this->urls->getPrimeiroItem();
+    URL *urlAdicionada;
     int index = 0;
 
     while (auxiliar != nullptr)
     {
         urlAdicionada = auxiliar->getValorDoObjetoArmazenado();
+        
+        if (urlAdicionada->getUrl().compare(novaUrl->getUrl()) == 0)
+        {
+            return;
+        }
 
         if (urlAdicionada->getProfundidade() > novaUrl->getProfundidade())
-        {   
+        {
+
             this->urls->inserir(index, novaUrl);
             return;
         }
@@ -37,13 +43,12 @@ void Host::adicionarURL(std::string url)
     }
 
     this->urls->inserir(novaUrl);
-
 }
 
-void Host::imprimirURLs(EscritorDeArquivos * escritor)
+void Host::imprimirURLs(EscritorDeArquivos *escritor)
 {
-    Item<URL> * auxiliar = this->urls->getPrimeiroItem();
-    URL * url;
+    Item<URL> *auxiliar = this->urls->getPrimeiroItem();
+    URL *url;
     std::string valorURL;
     while (auxiliar != nullptr)
     {
@@ -54,10 +59,11 @@ void Host::imprimirURLs(EscritorDeArquivos * escritor)
     }
 }
 
-int Host::escalonarURLs(int quantidadeMaxima, EscritorDeArquivos * escritor){
+int Host::escalonarURLs(int quantidadeMaxima, EscritorDeArquivos *escritor)
+{
 
-    Item<URL> * auxiliar = this->urls->getPrimeiroItem();
-    URL * url;
+    Item<URL> *auxiliar = this->urls->getPrimeiroItem();
+    URL *url;
     int index = 0;
     std::string valorURL;
 
@@ -70,24 +76,26 @@ int Host::escalonarURLs(int quantidadeMaxima, EscritorDeArquivos * escritor){
         index++;
     }
 
-
-    this->urls->remover(0,index);
+    this->urls->remover(0, index);
 
     return index;
 }
 
-int Host::escalonarURLs(EscritorDeArquivos * escritor){
+int Host::escalonarURLs(EscritorDeArquivos *escritor)
+{
 
-    return this->escalonarURLs(this->urls->size(),escritor);
+    return this->escalonarURLs(this->urls->size(), escritor);
 }
 
-void Host::limparURLs(){
+void Host::limparURLs()
+{
 
     delete this->urls;
     this->urls = new Lista<URL>();
 }
 
-Host::~Host(){
+Host::~Host()
+{
 
     delete this->urls;
 }

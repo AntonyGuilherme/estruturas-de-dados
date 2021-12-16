@@ -27,7 +27,7 @@ void Escalonador::adicionarURLs(std::string url)
         hostArmazenado = auxiliar->getValorDoObjetoArmazenado();
 
         if (hostArmazenado->getNome()->compare(nomeHost) == 0)
-        {
+        {   
             hostArmazenado->adicionarURL(url);
             isEncontrado = true;
             break;

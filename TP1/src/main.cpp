@@ -78,6 +78,7 @@ int main(int numeroDeArgumentos, char **argumentos)
                 conteudoLido = split.removerPedacoDaString(conteudoLido, "www.");
 
                 bool pularURL = false;
+                
                 for (int i = 0; i < extensoesNaoConsideradas.size(); i++)
                 {
                     if (conteudoLido.find(*extensoesNaoConsideradas.get(i)) != std::string::npos)
@@ -87,9 +88,15 @@ int main(int numeroDeArgumentos, char **argumentos)
                     }
                 }
 
-                if(!pularURL)
+                // removendo a barra no final da url se houver
+                if (conteudoLido[conteudoLido.size() - 1] == '/')
+                {
+                    conteudoLido.erase(conteudoLido.size() - 1, 1);
+                }
+
+                if (!pularURL)
                     escalonador->adicionarURLs(conteudoLido);
-                    
+
                 index++;
             }
         }

@@ -1,8 +1,7 @@
 #include "splitString.hpp"
 #include <iostream>
-// https://www.javatpoint.com/how-to-split-strings-in-cpp
 
-std::vector<std::string> SplitString::quebrarStringBaseadoEm(std::string *conteudo, char token)
+Lista<std::string> SplitString::quebrarStringBaseadoEm(std::string *conteudo, char token)
 {
 
     // pedaco encontrado no conteudo da string buscada
@@ -12,13 +11,13 @@ std::vector<std::string> SplitString::quebrarStringBaseadoEm(std::string *conteu
     std::stringstream streamData(*conteudo);
 
     // lista que contém os pedaços encontrados na string
-    std::vector<std::string> pedacosEncontrados;
+    Lista<std::string> pedacosEncontrados;
 
     // navegando pelos padaços encontrados no conteudo da string informada
     while (std::getline(streamData, pedaco, '/'))
     {
         if (pedaco.size())
-            pedacosEncontrados.push_back(pedaco);
+            pedacosEncontrados.inserir(new std::string(pedaco));
     }
 
     streamData.clear();
@@ -34,7 +33,7 @@ std::string SplitString::getPedacoDaStringQuebrada(std::string *conteudo, char t
     // pedaco encontrado no conteudo da string buscada
     std::string pedaco;
 
-    //craindo um stream de dados a partir da string informada
+    //criando um stream de dados a partir da string informada
     std::stringstream streamData(*conteudo);
 
     // navegando pelos padaços encontrados no conteudo da string informada
@@ -51,8 +50,6 @@ std::string SplitString::getPedacoDaStringQuebrada(std::string *conteudo, char t
 
     streamData.clear();
 
-    std::cout << *conteudo << std::endl;
-
     throw "Posicao nao encontrada";
 }
 
@@ -61,7 +58,7 @@ std::string SplitString::removerPedacoDaString(std::string fonte, std::string co
     //buscando a pela posicao
     size_t posicaoInicial = fonte.find(conteudoParaRemocao);
 
-    if(posicaoInicial != std::string::npos) // se for encontrado o item para remocao remova
+    if (posicaoInicial != std::string::npos) // se for encontrado o item para remocao remova
         fonte.erase(posicaoInicial, conteudoParaRemocao.length());
 
     //caso não encontre retorna a mesma string
