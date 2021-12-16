@@ -64,10 +64,28 @@ int FatRecursivo(int n){
 
 
 
+int P1(int x, int y, int n){
+    if (y==n)
+        return 0;
+    else {
+        return x + P1(2*x,y+1,n);
+    }
+}
 
+int P2(int n){
+    int x,y,s;
+    x=1;
+    s=0;
+    for(y=1;y<=n;y++){
+        s+=x;
+        x*=2;
+    }
+    return s;
+}
 
 int main()
 {
+    std::cout << P1(1,1,4) << " " << P2(4) << std::endl;
 
     return 0;
 }

@@ -2,11 +2,10 @@
 #define ESCALONADOR_H
 
 #include <string>
-#include <vector>
 #include "splitString.hpp"
 #include "host.hpp"
 #include "fila.hpp"
-#include <iostream>
+#include "escritorDeArquivos.hpp"
 /**
     * ADD_URLS <quantidade>: adiciona ao escalonador as URLs informadas nas linhas seguintes.
     * O parâmetro <quantidade> indica quantas linhas serão lidas antes do próximo comando.
@@ -23,7 +22,7 @@ class Escalonador
 {
 
 public:
-    Escalonador();
+    Escalonador(std::string& nomeDoArquivoDeSaida);
     ~Escalonador();
     void adicionarURLs(std::string url);
     void escalanoarTodasAsURLs();
@@ -36,8 +35,7 @@ public:
 
 private:
     Fila<Host> * hosts;
-    void escalonarURLs(std::vector<std::string> * urls);
-
+    EscritorDeArquivos * escritorDeArquivos;
 };
 
 #endif

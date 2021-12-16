@@ -1,9 +1,9 @@
 #include "escalonador.hpp"
 
-Escalonador::Escalonador()
+Escalonador::Escalonador(std::string& nomeDoArquivo)
 {
-
     this->hosts = new Fila<Host>();
+    this->escritorDeArquivos = new EscritorDeArquivos(nomeDoArquivo);
 }
 
 void Escalonador::adicionarURLs(std::string url)
@@ -44,44 +44,6 @@ void Escalonador::adicionarURLs(std::string url)
     }
 }
 
-/*
-void Escalonador::escalanoarTodasAsURLs()
-{
-
-    for (auto &host : this->hosts)
-    {
-
-        std::cout << host.getNome() << std::endl;
-
-        for (auto &url : host.getUrlsDisponiveis())
-        {
-
-            std::cout << " [ " << url << " ] " << std::endl;
-        }
-    }
-}
-
-void Escalonador::escalonarURLsDoHost(std::string nomeHost)
-{
-
-    for (auto &host : this->hosts)
-    {
-
-        if (nomeHost.compare(nomeHost) == 0)
-        {
-
-            for (auto &url : host.getUrlsDisponiveis())
-            {
-
-                std::cout << " [ " << url << " ] " << std::endl;
-            }
-
-            break;
-        }
-    }
-}
-*/
-
 void Escalonador::visualizarURLsDoHost(std::string nomeHost)
 {
 
@@ -95,7 +57,7 @@ void Escalonador::visualizarURLsDoHost(std::string nomeHost)
         if (hostArmazenado->getNome()->compare(nomeHost) == 0)
         {
 
-            hostArmazenado->imprimirURLs();
+            hostArmazenado->imprimirURLs(this->escritorDeArquivos);
 
             break;
         }
@@ -113,7 +75,7 @@ void Escalonador::visualizarHosts()
     while (auxiliar != nullptr)
     {
         hostArmazenado = auxiliar->getValorDoObjetoArmazenado();
-        std::cout << *hostArmazenado->getNome() << std::endl;
+        this->escritorDeArquivos->escreverLinha(*hostArmazenado->getNome());
         auxiliar = auxiliar->getProximoItem();
     }
 }
@@ -126,7 +88,7 @@ void Escalonador::escalanoarTodasAsURLs()
     while (itemHost != nullptr)
     {
         host = itemHost->getValorDoObjetoArmazenado();
-        host->escalonarURLs();
+        host->escalonarURLs(this->escritorDeArquivos);
         itemHost = itemHost->getProximoItem();
     }
 }
@@ -141,7 +103,7 @@ void Escalonador::escalonarURLsDoHost(std::string nomeHost,int quantidade)
         host = itemHost->getValorDoObjetoArmazenado();
         if (nomeHost.compare(*host->getNome()) == 0)
         {
-            host->escalonarURLs(quantidade);
+            host->escalonarURLs(quantidade,this->escritorDeArquivos);
             break;
         }
 
@@ -161,7 +123,7 @@ void Escalonador::escalonarURLs(int quantidade)
     {
 
         host = auxiliar->getValorDoObjetoArmazenado();
-        quantidadeParaProcessar -= host->escalonarURLs(quantidadeParaProcessar);
+        quantidadeParaProcessar -= host->escalonarURLs(quantidadeParaProcessar,this->escritorDeArquivos);
 
         auxiliar = auxiliar->getProximoItem();
     }
@@ -193,6 +155,8 @@ void Escalonador::limparTudo()
 }
 
 Escalonador::~Escalonador()
-{
+{   
+    this->escritorDeArquivos->fechar();
+    delete this->escritorDeArquivos;
     delete this->hosts;
 }

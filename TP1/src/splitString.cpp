@@ -44,7 +44,7 @@ std::string SplitString::getPedacoDaStringQuebrada(std::string *conteudo, char t
         {
             if (posicao == index)
                 return pedaco;
-                
+
             index++;
         }
     }
@@ -56,17 +56,14 @@ std::string SplitString::getPedacoDaStringQuebrada(std::string *conteudo, char t
     throw "Posicao nao encontrada";
 }
 
-std::string SplitString::removerPedacoDaString(std::string fonte,std::string conteudoParaRemocao){
+std::string SplitString::removerPedacoDaString(std::string fonte, std::string conteudoParaRemocao)
+{
+    //buscando a pela posicao
+    size_t posicaoInicial = fonte.find(conteudoParaRemocao);
 
+    if(posicaoInicial != std::string::npos) // se for encontrado o item para remocao remova
+        fonte.erase(posicaoInicial, conteudoParaRemocao.length());
 
-    std::string resultado = fonte;
-    size_t pos;
-
-    while ((pos = fonte.find(conteudoParaRemocao)) != std::string::npos) {
-
-        resultado = resultado.append(fonte.substr(0, pos));
-        resultado.erase(0, pos + conteudoParaRemocao.length());
-    }
-
-    return resultado;
+    //caso não encontre retorna a mesma string
+    return fonte;
 }

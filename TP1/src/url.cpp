@@ -4,7 +4,7 @@
 
 URL::URL(std::string url){
 
-    this->url = split.removerPedacoDaString(url,"www.");
+    this->url = url;
 
     this->calcularNivelDeProfundidade();
 }

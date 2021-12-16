@@ -1,6 +1,4 @@
 #include "host.hpp"
-#include <string>
-#include <vector>
 
 Host::Host(std::string nome)
 {
@@ -42,45 +40,45 @@ void Host::adicionarURL(std::string url)
 
 }
 
-void Host::imprimirURLs()
+void Host::imprimirURLs(EscritorDeArquivos * escritor)
 {
     Item<URL> * auxiliar = this->urls->getPrimeiroItem();
     URL * url;
+    std::string valorURL;
     while (auxiliar != nullptr)
     {
         url = auxiliar->getValorDoObjetoArmazenado();
-        std::cout << url->getUrl() << " " << url->getProfundidade() << std::endl;
-
+        valorURL = url->getUrl();
+        escritor->escreverLinha(valorURL);
         auxiliar = auxiliar->getProximoItem();
     }
 }
 
-int Host::escalonarURLs(int quantidadeMaxima){
+int Host::escalonarURLs(int quantidadeMaxima, EscritorDeArquivos * escritor){
 
     Item<URL> * auxiliar = this->urls->getPrimeiroItem();
     URL * url;
     int index = 0;
+    std::string valorURL;
 
     while (auxiliar != nullptr && quantidadeMaxima > index)
     {
         url = auxiliar->getValorDoObjetoArmazenado();
-        std::cout << "[ " << url->getUrl() << " ]" << std::endl;
+        valorURL = url->getUrl();
+        escritor->escreverLinha(valorURL);
         auxiliar = auxiliar->getProximoItem();
         index++;
     }
 
-    if(auxiliar != nullptr){
-       this->urls->inserirPrimeiro(auxiliar);
-    }
 
     this->urls->remover(0,index);
 
     return index;
 }
 
-int Host::escalonarURLs(){
+int Host::escalonarURLs(EscritorDeArquivos * escritor){
 
-    return this->escalonarURLs(this->urls->size());
+    return this->escalonarURLs(this->urls->size(),escritor);
 }
 
 void Host::limparURLs(){
