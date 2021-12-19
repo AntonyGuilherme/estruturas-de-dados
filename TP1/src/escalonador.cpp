@@ -8,7 +8,12 @@ Escalonador::Escalonador(std::string& nomeDoArquivo)
 
 void Escalonador::adicionarURLs(std::string url)
 {
+    // O(n^2)
+    // a complexidade é resultado da soma de cada execução
+    // então seria algo como 1 + 2 + 3 ... n
+    // assim temos f(n) = n*(n+1)/2, O(n^2)
 
+    //verificando se a url tem como o protocolo o http
     if (std::string::npos == url.find("http"))
     {
         return;
@@ -16,19 +21,23 @@ void Escalonador::adicionarURLs(std::string url)
 
     SplitString splitString;
 
+    //retirando o nome do host da url
     std::string nomeHost = splitString.getPedacoDaStringQuebrada(&url, '/', 1);
     bool isEncontrado = false;
 
     Item<Host> *auxiliar = this->hosts->getPrimeiroItem();
     Host *hostArmazenado;
 
+    //iterando pelo hosts
     while (auxiliar != nullptr)
     {
         hostArmazenado = auxiliar->getValorDoObjetoArmazenado();
 
+        // procurando pelo host
         if (hostArmazenado->getNome()->compare(nomeHost) == 0)
         {   
-            hostArmazenado->adicionarURL(url);
+            // O(n^2)
+            hostArmazenado->adicionarURL(url); 
             isEncontrado = true;
             break;
         }
@@ -36,7 +45,8 @@ void Escalonador::adicionarURLs(std::string url)
         auxiliar = auxiliar->getProximoItem();
     }
 
-    if (!isEncontrado)
+    // se o host não for encontrado ele será inserido na lista junto com a sua URL
+    if (!isEncontrado) 
     {
         Host *hostEncontrado = new Host(nomeHost);
         hostEncontrado->adicionarURL(url);
@@ -50,15 +60,15 @@ void Escalonador::visualizarURLsDoHost(std::string nomeHost)
     Item<Host> *auxiliar = this->hosts->getPrimeiroItem();
     Host *hostArmazenado;
 
+    // pesquisando o Host e escrevendo as URL's no arquivo
     while (auxiliar != nullptr)
     {
         hostArmazenado = auxiliar->getValorDoObjetoArmazenado();
 
         if (hostArmazenado->getNome()->compare(nomeHost) == 0)
         {
-
+            // escrevendo as URL's do host no arquivo
             hostArmazenado->imprimirURLs(this->escritorDeArquivos);
-
             break;
         }
 
@@ -72,6 +82,7 @@ void Escalonador::visualizarHosts()
     Item<Host> *auxiliar = this->hosts->getPrimeiroItem();
     Host *hostArmazenado;
 
+    // acessando e imprimindo o endereco de todos os os Hosts
     while (auxiliar != nullptr)
     {
         hostArmazenado = auxiliar->getValorDoObjetoArmazenado();
@@ -82,8 +93,16 @@ void Escalonador::visualizarHosts()
 
 void Escalonador::escalanoarTodasAsURLs()
 {
+    // escalonando os Hosts
+
+    //pegando o primeiro o host para realizar a iteração
     Item<Host> *itemHost = this->hosts->getPrimeiroItem();
     Host *host;
+
+    // O(n)
+    // n sendo o equivalente ao número de URL's adicionadas
+    // isso ocorreo porque o número de hosts depende do número de URL's
+    // e o somatório de suas URL's são as URL's adicionadas
 
     while (itemHost != nullptr)
     {
@@ -98,6 +117,8 @@ void Escalonador::escalonarURLsDoHost(std::string nomeHost,int quantidade)
     Item<Host> *itemHost = this->hosts->getPrimeiroItem();
     Host *host;
 
+
+    // encontrando e escalonando a URL do Host
     while (itemHost != nullptr)
     {
         host = itemHost->getValorDoObjetoArmazenado();
@@ -135,6 +156,7 @@ void Escalonador::limparHost(std::string nomeHost)
     Item<Host> *itemHost = this->hosts->getPrimeiroItem();
     Host *host;
 
+    // encontrando o host e limpando as URL's do host
     while (itemHost != nullptr)
     {
         host = itemHost->getValorDoObjetoArmazenado();

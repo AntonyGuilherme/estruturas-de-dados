@@ -1,6 +1,5 @@
 #include "url.hpp"
 #include <iostream>
-//https://www.delftstack.com/pt/howto/cpp/split-string-in-cpp/
 
 URL::URL(std::string url)
 {
@@ -12,12 +11,13 @@ URL::URL(std::string url)
 
 void URL::calcularNivelDeProfundidade()
 {
-
+    // pegando os pedacos da URL
     Lista<std::string> pedacos = split.quebrarStringBaseadoEm(&this->url, '/');
 
     this->nivelDeProfundidade = -2;
     Item<std::string> *auxiliar = pedacos.getPrimeiroItem();
 
+    // calculando o nível de profundida
     while (auxiliar != nullptr)
     {
         this->nivelDeProfundidade++;

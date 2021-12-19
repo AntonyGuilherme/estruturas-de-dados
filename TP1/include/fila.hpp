@@ -68,7 +68,7 @@ T Fila<T>::remover()
 
     if (this->ultimo == nullptr)
     {
-        throw "Removendo um item nulo";
+        throw std::invalid_argument("Removendo um item nulo");
     }
 
     T auxiliarParaRetorno = *this->ultimo->getValorDoObjetoArmazenado();

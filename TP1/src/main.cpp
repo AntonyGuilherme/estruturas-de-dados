@@ -5,32 +5,107 @@
 #include <stdexcept>
 #include "item.hpp"
 
-/*
-void testesLista()
+void adicionarURLs(
+    Escalonador *escalonador,
+    LeitorDeArquivo *leitor,
+    SplitString &split,
+    Lista<std::string> &extensoesNaoConsideradas,
+    std::string &conteudoLido)
 {
+    //pegando a quantidade de urls que devem ser adicionadas
+    leitor->getConteudoDaLinha(conteudoLido);
+    int quantidade = std::stoi(conteudoLido);
+    int index = 0;
 
-    Lista<URL> *urls = new Lista<URL>();
-    urls->inserir(0, new URL("http://www.globo.com/2"));
-    urls->inserir(0, new URL("http://www.globo.com/1"));
-    urls->inserir(0, new URL("http://www.globo.com/0"));
-    urls->inserir(3, new URL("http://www.globo.com/84"));
-    //urls->inserir(3, new URL("http://www.globo.com/84"));
-    urls->inserir(2, new URL("http://www.globo.com/42"));
-    urls->inserir(0, new URL("http://www.globo.com/42"));
-    urls->inserir(urls->getPrimeiroItem(), new URL("http://www.globo.com/4256"));
-    //urls->inserir(urls->getItem(7),new URL("http://www.globo.com/42562"));
-
-    Item<URL> *auxiliar = urls->getPrimeiroItem();
-
-    while (auxiliar != nullptr)
+    while (quantidade > index)
     {
 
-        std::cout << auxiliar->getValorDoObjetoArmazenado()->getUrl() << std::endl;
+        leitor->getConteudoDaLinha(conteudoLido);
+        // removendo o www. da url informada
+        conteudoLido = split.removerPedacoDaString(conteudoLido, "www.");
 
-        auxiliar = auxiliar->getProximoItem();
+        bool pularURL = false;
+
+        // O(1)-- custo constante 
+        for (int i = 0; i < extensoesNaoConsideradas.size(); i++)
+        {
+            if (conteudoLido.find(*extensoesNaoConsideradas.get(i)) != std::string::npos)
+            {
+                // pulando a url caso ela de acesso a um arquivo inadequado
+                pularURL = true;
+            }
+        }
+
+        // removendo a barra no final da url se houver
+        if (conteudoLido[conteudoLido.size() - 1] == '/')
+        {
+            conteudoLido.erase(conteudoLido.size() - 1, 1);
+        }
+
+        if (!pularURL)
+            escalonador->adicionarURLs(conteudoLido); // O(n^2)
+
+        index++;
     }
 }
-*/
+
+void escalonadorTodasAsURLs(Escalonador *escalonador)
+{
+    escalonador->escalanoarTodasAsURLs();
+}
+
+void escalonarURLsPorQuantidade(LeitorDeArquivo *leitor, Escalonador *escalonador, std::string &conteudoLido)
+{
+
+    leitor->getConteudoDaLinha(conteudoLido);
+    int quantidade = std::stoi(conteudoLido);
+    escalonador->escalonarURLs(quantidade);
+}
+
+void escalonarURLsPorHost(
+    LeitorDeArquivo *leitor,
+    Escalonador *escalonador,
+    std::string &conteudoLido,
+    SplitString &split)
+{
+
+    std::string host;
+    leitor->getConteudoDaLinha(host);
+    leitor->getConteudoDaLinha(conteudoLido);
+    int quantidade = std::stoi(conteudoLido);
+    host = split.removerPedacoDaString(host, "www.");
+    escalonador->escalonarURLsDoHost(host, quantidade);
+}
+
+void visualizarURLsDoHost(
+    LeitorDeArquivo *leitor,
+    Escalonador *escalonador,
+    std::string &conteudoLido,
+    SplitString &split)
+{
+    leitor->getConteudoDaLinha(conteudoLido);
+    conteudoLido = split.removerPedacoDaString(conteudoLido, "www.");
+    escalonador->visualizarURLsDoHost(conteudoLido);
+}
+
+void limparHost(
+    LeitorDeArquivo *leitor,
+    Escalonador *escalonador,
+    std::string &conteudoLido,
+    SplitString &split)
+{
+    leitor->getConteudoDaLinha(conteudoLido);
+    conteudoLido = split.removerPedacoDaString(conteudoLido, "www.");
+    escalonador->limparHost(conteudoLido);
+}
+
+void visualizarHosts(Escalonador * escalonador){
+    escalonador->visualizarHosts();
+}
+
+void limparTudo(Escalonador * escalonador){
+    escalonador->limparTudo();
+}
 
 int main(int numeroDeArgumentos, char **argumentos)
 {
@@ -42,6 +117,7 @@ int main(int numeroDeArgumentos, char **argumentos)
     extensoesNaoConsideradas.inserir(new std::string(".gif"));
     extensoesNaoConsideradas.inserir(new std::string(".jpg"));
 
+    // verificando se o arquivo foi informado
     if (numeroDeArgumentos < 1)
     {
         throw std::invalid_argument("O nome do arquivo nao foi encontrado");
@@ -49,6 +125,7 @@ int main(int numeroDeArgumentos, char **argumentos)
 
     std::string nomeArquivo(argumentos[1]);
 
+    // verificando a extensão do arquivo
     if (nomeArquivo.find_last_of(".txt") == std::string::npos)
     {
         throw std::invalid_argument("O arquivo deve possuir a extensao txt");
@@ -67,82 +144,39 @@ int main(int numeroDeArgumentos, char **argumentos)
 
         if (conteudoLido.compare("ADD_URLS") == 0)
         {
-            leitor->getConteudoDaLinha(conteudoLido);
-            int quantidade = std::stoi(conteudoLido);
-            int index = 0;
-
-            while (quantidade > index)
-            {
-
-                leitor->getConteudoDaLinha(conteudoLido);
-                conteudoLido = split.removerPedacoDaString(conteudoLido, "www.");
-
-                bool pularURL = false;
-                
-                for (int i = 0; i < extensoesNaoConsideradas.size(); i++)
-                {
-                    if (conteudoLido.find(*extensoesNaoConsideradas.get(i)) != std::string::npos)
-                    {
-                        // pulando a url caso ela de acesso a um arquivo inadequado
-                        pularURL = true;
-                    }
-                }
-
-                // removendo a barra no final da url se houver
-                if (conteudoLido[conteudoLido.size() - 1] == '/')
-                {
-                    conteudoLido.erase(conteudoLido.size() - 1, 1);
-                }
-
-                if (!pularURL)
-                    escalonador->adicionarURLs(conteudoLido);
-
-                index++;
-            }
+            adicionarURLs(escalonador, leitor, split, extensoesNaoConsideradas, conteudoLido);
         }
         else if (conteudoLido.compare("ESCALONA_TUDO") == 0)
         {
-            escalonador->escalanoarTodasAsURLs();
+            escalonadorTodasAsURLs(escalonador);
         }
         else if (conteudoLido.compare("ESCALONA") == 0)
         {
-            leitor->getConteudoDaLinha(conteudoLido);
-            int quantidade = std::stoi(conteudoLido);
-            escalonador->escalonarURLs(quantidade);
+            escalonarURLsPorQuantidade(leitor, escalonador, conteudoLido);
         }
         else if (conteudoLido.compare("ESCALONA_HOST") == 0)
         {
-            std::string host;
-            leitor->getConteudoDaLinha(host);
-            leitor->getConteudoDaLinha(conteudoLido);
-            int quantidade = std::stoi(conteudoLido);
-            host = split.removerPedacoDaString(host, "www.");
-            escalonador->escalonarURLsDoHost(host, quantidade);
+            escalonarURLsPorHost(leitor, escalonador, conteudoLido, split);
         }
         else if (conteudoLido.compare("VER_HOST") == 0)
         {
-            leitor->getConteudoDaLinha(conteudoLido);
-            conteudoLido = split.removerPedacoDaString(conteudoLido, "www.");
-            escalonador->visualizarURLsDoHost(conteudoLido);
+            visualizarURLsDoHost(leitor, escalonador, conteudoLido, split);
         }
         else if (conteudoLido.compare("LISTA_HOSTS") == 0)
         {
-            escalonador->visualizarHosts();
+            visualizarHosts(escalonador);   
         }
         else if (conteudoLido.compare("LIMPA_HOST") == 0)
         {
-            leitor->getConteudoDaLinha(conteudoLido);
-            conteudoLido = split.removerPedacoDaString(conteudoLido, "www.");
-            escalonador->limparHost(conteudoLido);
+            limparHost(leitor,escalonador,conteudoLido,split);
         }
         else if (conteudoLido.compare("LIMPA_TUDO") == 0)
         {
-            escalonador->limparTudo();
+            limparTudo(escalonador);
         }
         else
         {
-            std::cout << conteudoLido << std::endl;
-            break;
+            throw std::invalid_argument("Opção não encontrada!");
         }
     }
 

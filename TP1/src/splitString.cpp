@@ -50,7 +50,7 @@ std::string SplitString::getPedacoDaStringQuebrada(std::string *conteudo, char t
 
     streamData.clear();
 
-    throw "Posicao nao encontrada";
+    throw std::invalid_argument("Posicao nao encontrada");
 }
 
 std::string SplitString::removerPedacoDaString(std::string fonte, std::string conteudoParaRemocao)

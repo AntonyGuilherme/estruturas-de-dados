@@ -1,7 +1,5 @@
 #include "escritorDeArquivos.hpp"
 
-//https://www.delftstack.com/howto/cpp/cpp-write-to-file/
-
 EscritorDeArquivos::EscritorDeArquivos(std::string &nomeArquivos)
 {
     this->arquivo.open(nomeArquivos, std::ios_base::out);

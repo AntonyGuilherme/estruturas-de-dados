@@ -20,7 +20,3 @@ clean:
 
 compile:
 	$(BIN_FOLDER)$(TARGET)	teste1.txt
-	$(BIN_FOLDER)$(TARGET)	teste2.txt 
-	$(BIN_FOLDER)$(TARGET)	teste3.txt 
-	$(BIN_FOLDER)$(TARGET)	teste4.txt 
-	$(BIN_FOLDER)$(TARGET)	teste5.txt 	

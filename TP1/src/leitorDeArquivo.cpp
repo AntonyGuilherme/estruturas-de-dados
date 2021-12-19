@@ -28,6 +28,6 @@ void LeitorDeArquivo::abrirArquivo()
 
     if (!arquivo.good())
     {
-        throw "Arquivo nao encontrado!";
+        throw std::invalid_argument("Arquivo nao encontrado!");
     }
 }
