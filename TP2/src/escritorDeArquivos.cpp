@@ -5,13 +5,16 @@ EscritorDeArquivos::EscritorDeArquivos(std::string nomeArquivos) : EscritorDeArq
     this->prepararArquivo(nomeArquivos);
 }
 
-EscritorDeArquivos::EscritorDeArquivos(){
+EscritorDeArquivos::EscritorDeArquivos()
+{
     this->arquivo = new std::ofstream();
 }
 
-void EscritorDeArquivos::prepararArquivo(std::string nomeDoArquivo){
-    
-    if(this->arquivo->is_open()) this->fechar();
+void EscritorDeArquivos::prepararArquivo(std::string nomeDoArquivo)
+{
+
+    if (this->arquivo->is_open())
+        this->fechar();
 
     this->arquivo->open(nomeDoArquivo, std::ios_base::out);
 
@@ -29,12 +32,23 @@ void EscritorDeArquivos::escreverLinha(std::string conteudo)
     // quebrando a linha do arquivo
     *this->arquivo << std::endl;
 
-    if(this->arquivo->fail()){ // verificando se há erros na escrita do arquivo
-        throw std::invalid_argument("O Arquivo nao pode ser aberto!");
+    if (this->arquivo->fail())
+    { // verificando se há erros na escrita do arquivo
+        throw std::invalid_argument("O Arquivo nao pode ser aberto 5!");
     }
 }
 
 void EscritorDeArquivos::fechar()
 {
     this->arquivo->close();
+}
+
+EscritorDeArquivos::~EscritorDeArquivos()
+{
+    if (this->arquivo->is_open())
+    {
+        this->arquivo->close();
+    }
+
+    delete this->arquivo;
 }

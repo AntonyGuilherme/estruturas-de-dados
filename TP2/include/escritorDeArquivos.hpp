@@ -17,6 +17,7 @@ public:
     void prepararArquivo(std::string nomeArquivo);
     void escreverLinha(std::string conteudo);
     void fechar();
+    ~EscritorDeArquivos();
 
 };
 

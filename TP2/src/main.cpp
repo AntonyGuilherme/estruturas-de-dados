@@ -1,9 +1,10 @@
 #include <iostream>
 #include "heap.hpp"
-#include "HeapException.hpp"
+#include "aplicacaoException.hpp"
 #include "leitorDeArquivo.hpp"
 #include "escritorDeArquivos.hpp"
 #include "fita.hpp"
+#include "lista.hpp"
 
 //GERA_RODADA(n):
 //1) entidades = le_entidades(NUM_ENTIDADES)
@@ -23,10 +24,9 @@ std::string gerarNomeDoArquivoDaRodada(int numeroDaRodada)
 
 void escreverArquivoDaRodada(
     int numeroDaRodada,
-    Heap *heap,
+    Lista *lista,
     EscritorDeArquivos *escritor,
-    LeitorDeArquivo *leitor,
-    bool isUltimaRodada)
+    LeitorDeArquivo *leitor)
 {
     // criando o nome do arquivo da rodada
     std::string nomeDoArquivoDaRodada = gerarNomeDoArquivoDaRodada(numeroDaRodada);
@@ -35,43 +35,27 @@ void escreverArquivoDaRodada(
     escritor->prepararArquivo(nomeDoArquivoDaRodada);
 
     // url lida do heap
-    URL *url, *urlArquivo;
-
-    std::string endereco;
-    int numeroDeVisualizacoes;
+    URL *url;
 
     // enquanto houver urls no heap faça
-    while (heap->pop(url))
+    while (lista->pop(url))
     {
-        if (isUltimaRodada && lerURL(leitor, endereco, numeroDeVisualizacoes))
-        {
-
-            urlArquivo = new URL(endereco, numeroDeVisualizacoes);
-
-            if (url->getNumeroDeVisualizacoes() > urlArquivo->getNumeroDeVisualizacoes())
-            {
-                heap->inserir(urlArquivo);
-            }
-            else
-            {
-                heap->inserir(url);
-                url = urlArquivo;
-            }
-        }
-
         // escrevendo a url no arquivo
         escritor->escreverLinha(url->toString());
+
+        delete url;
     }
 
     // fechando o arquivo para leituras futuras
     escritor->fechar();
 }
 
-void ordenar(Heap *heap, int tamanho)
+void ordenar(Ordenador *ordenador, Lista *lista)
 {
+    lista->ordenar(ordenador);
 }
 
-bool lerEntidades(int numeroDeURLASeremLidas, Heap *heap, LeitorDeArquivo *leitorDeArquivo)
+bool lerEntidades(int numeroDeURLASeremLidas, Lista *lista, LeitorDeArquivo *leitorDeArquivo)
 {
     // aramazena o endereco da url : www.ufmg.br
     std::string enderecoDaURL;
@@ -85,10 +69,10 @@ bool lerEntidades(int numeroDeURLASeremLidas, Heap *heap, LeitorDeArquivo *leito
     while (lerURL(leitorDeArquivo, enderecoDaURL, numeroDeAcessos))
     {
         // incrementando número de URLs lidas até o momento
-        numeroDeURLsLidas++;
+        numeroDeURLsLidas += 1;
 
         // inserindo a nova URL no Heap
-        heap->inserir(new URL(enderecoDaURL, numeroDeAcessos));
+        lista->inserir(new URL(enderecoDaURL, numeroDeAcessos));
 
         // se o número máximo de URL's lidas chegar ao limite estipulado
         // o loop é parado
@@ -104,19 +88,19 @@ bool lerEntidades(int numeroDeURLASeremLidas, Heap *heap, LeitorDeArquivo *leito
 bool GerarRodada(
     int numeroDaRodada,
     int numeroDeItensPorRodada,
-    Heap *heap,
+    Lista *lista,
     EscritorDeArquivos *escritor,
     LeitorDeArquivo *leitorDeArquivo,
-    bool isUltimaFita)
+    Ordenador *ordenador)
 {
     // se houver entidades a serem lidas faça :
-    if (lerEntidades(numeroDeItensPorRodada, heap, leitorDeArquivo))
+    if (lerEntidades(numeroDeItensPorRodada, lista, leitorDeArquivo))
     {
         // ordenando o heap
-        ordenar(heap, numeroDeItensPorRodada);
+        ordenar(ordenador, lista);
 
         // escrevendo o arquivo da rodada com as urls lidas e ordenadas
-        escreverArquivoDaRodada(numeroDaRodada, heap, escritor, leitorDeArquivo, isUltimaFita);
+        escreverArquivoDaRodada(numeroDaRodada, lista, escritor, leitorDeArquivo);
         return true;
     }
 
@@ -126,28 +110,21 @@ bool GerarRodada(
 // o arquivo de entrada deve ser lido enquanto as entidades couberem na memória principal.
 int GerarRodadas(
     int numeroDeItensPorRodada,
-    Heap *heap,
+    Lista *lista,
     LeitorDeArquivo *leitor,
-    EscritorDeArquivos *escritor,
-    int numeroDeFitas)
+    EscritorDeArquivos *escritor)
 {
+    Ordenador ordenador;
 
     int rodada = 0;
-    bool isUltimaFita = numeroDeFitas <= (rodada + 1);
     // enquanto for necessário gerar rodadas faça :
-    while (GerarRodada(rodada, numeroDeItensPorRodada, heap, escritor, leitor, isUltimaFita))
+    while (GerarRodada(rodada, numeroDeItensPorRodada, lista, escritor, leitor, &ordenador))
     {
         // incrementando número de rodadas geradas
         rodada++;
-
-        isUltimaFita = numeroDeFitas <= (rodada + 1);
     }
 
     return rodada;
-}
-
-void Intercalar()
-{
 }
 
 void gerarFitas(int numeroDeRodadasGeradas, Fita **fitas)
@@ -159,45 +136,74 @@ void gerarFitas(int numeroDeRodadasGeradas, Fita **fitas)
     }
 }
 
-int main()
+void Intercalar(int numeroDeRodadasGeradas, EscritorDeArquivos *escritor, std::string& arquivo)
 {
-    // numero de fitas disponiveis
-    int numeroDeFitas = 1;
-    // instanciando o heap para a leitura das URLs
-    int numeroDeItensPorRodada = 5;
-    Heap *heap = new Heap(numeroDeItensPorRodada);
-
-    // criando o leitor de arquivo para ler o arquivo passado pelo usuário
-    LeitorDeArquivo *leitor = new LeitorDeArquivo("teste.txt");
-
-    // criando o escritor para escrever os arquivos gerados pelas rodadas
-    EscritorDeArquivos *escritor = new EscritorDeArquivos();
-
-    // gerando as rodadas e recuperando o número de rodadas geradas
-    int numeroDeRodadasGeradas = GerarRodadas(numeroDeItensPorRodada, heap, leitor, escritor, numeroDeFitas);
-    escritor->prepararArquivo("arquivo-saida.txt");
-
+    escritor->prepararArquivo(arquivo);
+    Heap heap(numeroDeRodadasGeradas);
     Fita **fitas = new Fita *[numeroDeRodadasGeradas];
+
     gerarFitas(numeroDeRodadasGeradas, fitas);
+
     URL *url;
 
     for (int rodada = 0; rodada < numeroDeRodadasGeradas; rodada++)
     {
 
         if (fitas[rodada]->read(url))
-            heap->inserir(url);
+            heap.inserir(url);
     }
 
-    while (heap->pop(url))
+    while (heap.pop(url))
     {
 
         escritor->escreverLinha(url->toString());
+        delete url;    
 
         if (fitas[url->getFitaDeOrigem()]->read(url))
-            heap->inserir(url);
+            heap.inserir(url);
+
     }
 
-    std::cout << "Numero de rodadas geradas " << numeroDeRodadasGeradas << std::endl;
+    escritor->fechar();
+
+    delete fitas;
+}
+
+// <arquivo-de-entrada> <arquivo-de-saida> <número-de-entidades>
+int main(int numeroDeArgumentos, char ** argumentos)
+{
+    try
+    {
+        
+        std::string arquivoDeEntrada(argumentos[1]), arquivoDeSaida(argumentos[2]);
+        
+        // instanciando o heap para a leitura das URLs
+        int numeroDeItensPorRodada = std::stoi(argumentos[3]);
+
+        Lista lista(numeroDeItensPorRodada);
+
+        // criando o leitor de arquivo para ler o arquivo passado pelo usuário
+        LeitorDeArquivo *leitor = new LeitorDeArquivo(arquivoDeEntrada);
+
+        // criando o escritor para escrever os arquivos gerados pelas rodadas
+        EscritorDeArquivos *escritor = new EscritorDeArquivos();
+
+        // gerando as rodadas e recuperando o número de rodadas geradas
+        int numeroDeRodadasGeradas = GerarRodadas(numeroDeItensPorRodada, &lista, leitor, escritor);
+
+        Intercalar(numeroDeRodadasGeradas, escritor, arquivoDeSaida);
+
+        delete leitor, escritor;
+    }
+    catch (AplicacaoException *ex)
+    {
+        std::cout << std::endl;
+        std::cout << "ERRO NA APLICAÇÃO " << std::endl;
+        std::cout << ex->getCodigo() << std::endl;
+        std::cout << ex->getMensagem() << std::endl;
+        std::cout << "INFORMAÇÕES ADICIONAIS DO ERRO" << std::endl;
+        std::cout << ex->getInformacoes() << std::endl;
+    }
 
     return 0;
 }

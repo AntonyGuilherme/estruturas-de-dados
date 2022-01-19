@@ -1,5 +1,5 @@
-#ifndef HEAP_H
-#define HEAP_H
+#ifndef HEAP_ANTIGO_H
+#define HEAP_ANTIGO_H
 
 #include "url.hpp"
 
@@ -18,6 +18,7 @@ public:
     Heap(int tamanhoDoHeap);
     bool pop(URL*&url);
     void inserir(URL * url);
+    ~Heap();
 
 };
 

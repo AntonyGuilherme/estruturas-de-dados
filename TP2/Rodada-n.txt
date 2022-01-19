@@ -1,5 +1,0 @@
-http://aeds.dcc.ufmg.br 6
-http://www.uol.com.br 5
-http://www.google.com 3
-http://www.dcc.ufmg.br/cursos 2
-http://www.dcc.ufmg.br 1

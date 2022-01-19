@@ -18,6 +18,7 @@ public:
     LeitorDeArquivo();
     bool getConteudoDaLinha(std::string &conteudo);
     bool getConteudoDaLinha(int &conteudo);
+    void fechar();
     ~LeitorDeArquivo();
 };
 

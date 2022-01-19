@@ -1,6 +1,6 @@
 #include "heap.hpp"
 #include <iostream>
-#include "HeapException.hpp"
+#include "heapException.hpp"
 
 void Heap::Refaz(int Esq, int Dir, URL **A)
 {
@@ -44,6 +44,7 @@ bool Heap::RetiraMax(URL **A, int *n, URL *&url)
     {
         url = A[1];
         A[1] = A[*n];
+        A[*n] = nullptr;
         (*n)--;
         Refaz(1, *n, A);
     }
@@ -72,8 +73,9 @@ bool Heap::pop(URL *&url)
 void Heap::inserir(URL *url)
 {
 
-    if(tamanhoTotal == (tamanhoUsado+1)){
-         throw new HeapException("Tamanho máximo do Heap atingido!");
+    if (tamanhoTotal == (tamanhoUsado + 1))
+    {
+        throw new HeapException("Tamanho máximo do Heap atingido!");
     }
 
     this->tamanhoUsado++;
@@ -85,10 +87,17 @@ Heap::Heap(int tamanhoTotalDoHeap)
 {
     if (tamanhoTotalDoHeap <= 0)
     {
-        throw new HeapException("Tamanho de Heap Inválido! É esperado um valor maior do que zero.");
+        throw new HeapException(
+            "Tamanho de Heap Inválido! É esperado um valor maior do que zero.",
+            std::to_string(tamanhoTotalDoHeap));
     }
 
     this->tamanhoTotal = tamanhoTotalDoHeap + 1;
     this->tamanhoUsado = 0;
     this->heap = new URL *[this->tamanhoTotal];
+}
+
+Heap::~Heap()
+{
+    delete heap;
 }

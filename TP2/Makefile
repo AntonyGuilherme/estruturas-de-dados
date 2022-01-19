@@ -22,4 +22,9 @@ cleanfiles:
 	@rm -rf rodada*
 
 compile:
-	$(BIN_FOLDER)$(TARGET)	teste1.txt
+	$(BIN_FOLDER)$(TARGET)	teste.txt saida1.txt 8
+	$(BIN_FOLDER)$(TARGET)	teste.txt saida2.txt 11
+	$(BIN_FOLDER)$(TARGET)	teste.txt saida3.txt 4
+	$(BIN_FOLDER)$(TARGET)	teste.txt saida4.txt 3
+	$(BIN_FOLDER)$(TARGET)	teste.txt saida5.txt 2
+	$(BIN_FOLDER)$(TARGET)	teste.txt saida6.txt 1
