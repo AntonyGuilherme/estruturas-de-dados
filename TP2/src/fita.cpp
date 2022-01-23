@@ -2,7 +2,10 @@
 
 Fita::Fita(std::string nomeDoArquivo, int numeroDeFita)
 {
+    // instanciando o leitor de arquivos
     this->leitor = new LeitorDeArquivo(nomeDoArquivo);
+    
+    // atribuindo o número da fita
     this->numeroDeFita = numeroDeFita;
 }
 

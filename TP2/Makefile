@@ -28,3 +28,6 @@ compile:
 	$(BIN_FOLDER)$(TARGET)	teste.txt saida4.txt 3
 	$(BIN_FOLDER)$(TARGET)	teste.txt saida5.txt 2
 	$(BIN_FOLDER)$(TARGET)	teste.txt saida6.txt 1
+	$(BIN_FOLDER)$(TARGET)	teste.txt saida6.txt 0
+	$(BIN_FOLDER)$(TARGET)	teste teste.txt 1
+	$(BIN_FOLDER)$(TARGET)	saida6.txt 1

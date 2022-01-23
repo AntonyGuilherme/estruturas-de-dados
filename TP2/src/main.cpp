@@ -5,18 +5,16 @@
 #include "escritorDeArquivos.hpp"
 #include "fita.hpp"
 #include "lista.hpp"
+#include "argumentoException.hpp"
 
-//GERA_RODADA(n):
-//1) entidades = le_entidades(NUM_ENTIDADES)
-//2) ordena(entidades)
-//3) escreve(entidades, “rodada-”+n+”.txt”)
-
+// ler a url a partir de um arquivo de entrada ou uma rodada
+// considerando que ela esteja no formato <url> <número de acessos>
 bool lerURL(LeitorDeArquivo *leitor, std::string &endereco, int &numeroDeAcessos)
 {
-
     return leitor->getConteudoDaLinha(endereco) && leitor->getConteudoDaLinha(numeroDeAcessos);
 }
 
+// gerando o nome do arquivo de acordo com o numero da rodada
 std::string gerarNomeDoArquivoDaRodada(int numeroDaRodada)
 {
     return "rodada-" + std::to_string(numeroDaRodada) + ".txt";
@@ -50,11 +48,6 @@ void escreverArquivoDaRodada(
     escritor->fechar();
 }
 
-void ordenar(Ordenador *ordenador, Lista *lista)
-{
-    lista->ordenar(ordenador);
-}
-
 bool lerEntidades(int numeroDeURLASeremLidas, Lista *lista, LeitorDeArquivo *leitorDeArquivo)
 {
     // aramazena o endereco da url : www.ufmg.br
@@ -85,6 +78,7 @@ bool lerEntidades(int numeroDeURLASeremLidas, Lista *lista, LeitorDeArquivo *lei
     return numeroDeURLsLidas > 0;
 }
 
+// retornada true caso ainda haja leituras a serem feitas
 bool GerarRodada(
     int numeroDaRodada,
     int numeroDeItensPorRodada,
@@ -97,7 +91,7 @@ bool GerarRodada(
     if (lerEntidades(numeroDeItensPorRodada, lista, leitorDeArquivo))
     {
         // ordenando o heap
-        ordenar(ordenador, lista);
+        lista->ordenar(ordenador);
 
         // escrevendo o arquivo da rodada com as urls lidas e ordenadas
         escreverArquivoDaRodada(numeroDaRodada, lista, escritor, leitorDeArquivo);
@@ -107,16 +101,19 @@ bool GerarRodada(
     return false;
 }
 
-// o arquivo de entrada deve ser lido enquanto as entidades couberem na memória principal.
+// gera as rodadas e seus respectivos arquivos
+// posteriormente, retorna o número de fitas geradas
 int GerarRodadas(
     int numeroDeItensPorRodada,
     Lista *lista,
     LeitorDeArquivo *leitor,
     EscritorDeArquivos *escritor)
 {
+    // gerando um ordenador que utilize o QuickSort
     Ordenador ordenador;
 
     int rodada = 0;
+
     // enquanto for necessário gerar rodadas faça :
     while (GerarRodada(rodada, numeroDeItensPorRodada, lista, escritor, leitor, &ordenador))
     {
@@ -127,59 +124,127 @@ int GerarRodadas(
     return rodada;
 }
 
+// gerando o acesso as fitas (rodada-n.txt) salvas
 void gerarFitas(int numeroDeRodadasGeradas, Fita **fitas)
 {
-
     for (int numeroDaRodada = 0; numeroDaRodada < numeroDeRodadasGeradas; numeroDaRodada++)
     {
+        // gerando as fitas e marcando o seu respectivo número
+        // para que possa ser usado, posteriormente, na leitura das respectivas urls da fita
         fitas[numeroDaRodada] = new Fita(gerarNomeDoArquivoDaRodada(numeroDaRodada), numeroDaRodada);
     }
 }
 
-void Intercalar(int numeroDeRodadasGeradas, EscritorDeArquivos *escritor, std::string& arquivo)
+// liberando a memória utilizada no armazenamento das fitas
+void removerFitasGeradas(int numeroDeRodadasGeradas, Fita **fitas)
 {
+    for (int numeroDaRodada = 0; numeroDaRodada < numeroDeRodadasGeradas; numeroDaRodada++)
+    {
+        // removendo a fita da memória
+        delete fitas[numeroDaRodada];
+    }
+}
+
+void Intercalar(int numeroDeRodadasGeradas, EscritorDeArquivos *escritor, std::string &arquivo)
+{
+    // abrindo o arquivo no qual a fita deverá ser escrita
     escritor->prepararArquivo(arquivo);
+
+    // criando o heap para a intercalação das urls
     Heap heap(numeroDeRodadasGeradas);
+
+    // criando o acesso para as fitas
     Fita **fitas = new Fita *[numeroDeRodadasGeradas];
 
+    // gerando as fitas para o acesso as arquivos gerados nas rodadas
     gerarFitas(numeroDeRodadasGeradas, fitas);
 
+    // ponteiro de url que será usado na leitura
+    // para receber o a url lida de um arquivo de rodada
     URL *url;
 
+    // pegando a primeira url de cada arquivo
     for (int rodada = 0; rodada < numeroDeRodadasGeradas; rodada++)
     {
-
+        // caso não seja possível ler a url é retornado "false"
+        // e assim ela não é inserida no heap
         if (fitas[rodada]->read(url))
-            heap.inserir(url);
+            heap.inserir(url); // inserindo a url no heap
     }
 
+    int fitaDeOrigemDaURL = 0;
+
+    // retirando a url do heap até que chegue ao fim
     while (heap.pop(url))
     {
 
+        // escrevendo a url no arquivo de saída
         escritor->escreverLinha(url->toString());
-        delete url;    
 
-        if (fitas[url->getFitaDeOrigem()]->read(url))
-            heap.inserir(url);
+        // atribuindo o número da fita de origem da url
+        // para a próxima leitura
+        fitaDeOrigemDaURL = url->getFitaDeOrigem();
 
+        // removendo a url da memória
+        delete url;
+
+        // lendo mais urls da fita de origem da url lida anteriormente
+        if (fitas[fitaDeOrigemDaURL]->read(url))
+            heap.inserir(url); // inserindo a url no heap
     }
 
+    // fechando o arquivo de saída
     escritor->fechar();
 
+    // liberando a memória utlizada para cada fita
+    removerFitasGeradas(numeroDeRodadasGeradas, fitas);
+
+    // removendo as fitas da memória
     delete fitas;
 }
 
+void lerArgumentos(
+    int numeroDeArgumentos, char **argumentos,
+    std::string &arquivoDeEntrada,
+    std::string &arquivoDeSaida,
+    int &numeroDeItensPorRodada)
+{
+    if (numeroDeArgumentos < 4)
+    {
+        throw new ArgumentoException(
+            "Eram esperados 3 argumentos, <arquivo-de-entrada> <arquivo-de-saida> <número-de-entidades>",
+            std::to_string(numeroDeArgumentos));
+    }
+
+    try
+    {
+
+        // recuperando o nome do arquivo de saída e origem
+        arquivoDeEntrada = std::string(argumentos[1]);
+        arquivoDeSaida = std::string(argumentos[2]);
+
+        // recuperando a quantidade de itens que devem ser lidos por rodada
+        numeroDeItensPorRodada = std::stoi(argumentos[3]);
+    }
+    catch (std::exception erro)
+    {
+        throw new ArgumentoException("Erro no formato dos agumentos.");
+    }
+}
+
 // <arquivo-de-entrada> <arquivo-de-saida> <número-de-entidades>
-int main(int numeroDeArgumentos, char ** argumentos)
+int main(int numeroDeArgumentos, char **argumentos)
 {
     try
     {
-        
-        std::string arquivoDeEntrada(argumentos[1]), arquivoDeSaida(argumentos[2]);
-        
-        // instanciando o heap para a leitura das URLs
-        int numeroDeItensPorRodada = std::stoi(argumentos[3]);
 
+        // recuperando os argumentos
+        std::string arquivoDeEntrada, arquivoDeSaida;
+        int numeroDeItensPorRodada;
+        lerArgumentos(numeroDeArgumentos,argumentos,
+        arquivoDeEntrada,arquivoDeSaida,numeroDeItensPorRodada);
+
+        // instanciando a lista para a leitura das URLs
         Lista lista(numeroDeItensPorRodada);
 
         // criando o leitor de arquivo para ler o arquivo passado pelo usuário
@@ -191,12 +256,19 @@ int main(int numeroDeArgumentos, char ** argumentos)
         // gerando as rodadas e recuperando o número de rodadas geradas
         int numeroDeRodadasGeradas = GerarRodadas(numeroDeItensPorRodada, &lista, leitor, escritor);
 
+        //intercalando e por consequência escrevendo no arquivo de saída
         Intercalar(numeroDeRodadasGeradas, escritor, arquivoDeSaida);
 
+        // liberando a memória do escritor de arquivos e do leitor
+        // caso hajam arquivos abertos, eles são fechados automaticamente
         delete leitor, escritor;
     }
-    catch (AplicacaoException *ex)
+    catch (AplicacaoException *ex) // captura erros gerados pela aplicação
     {
+        // gera a visualização do erro considerando :
+        // o código, ou seja, pelo que o erro foi gerado
+        // a mesagem que descreve o erro que foi gerado
+        // e as informações, ou seja, o valor que gerou o erro, caso exista
         std::cout << std::endl;
         std::cout << "ERRO NA APLICAÇÃO " << std::endl;
         std::cout << ex->getCodigo() << std::endl;

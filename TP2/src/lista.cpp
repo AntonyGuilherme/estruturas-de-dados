@@ -5,6 +5,7 @@
 bool Lista::pop(URL *&url)
 {
 
+    // caso não haja mais leituras a serem feitas é retornado false
     if (this->tamanhoUsado <= 0)
         return false;
 
@@ -27,6 +28,7 @@ void Lista::inserir(URL *url)
         throw new ListaException("Tamanho máximo do Heap atingido!", url->toString());
     }
 
+    // atribuindo a url e incrementando o tamanho utilizado
     this->lista[this->tamanhoUsado] = url;
     this->tamanhoUsado++;
 }
@@ -40,7 +42,7 @@ Lista::Lista(int tamanhoTotalDoHeap)
             "Tamanho de Heap Inválido! É esperado um valor maior do que zero.", std::to_string(tamanhoTotalDoHeap));
     }
 
-    // atribuindo o tamanho da lista e allocando a memória necessária
+    // atribuindo o tamanho da lista e alocando a memória necessária
     this->tamanhoTotal = tamanhoTotalDoHeap;
     this->tamanhoUsado = 0;
     this->lista = new URL *[this->tamanhoTotal];
@@ -48,16 +50,20 @@ Lista::Lista(int tamanhoTotalDoHeap)
 
 void Lista::ordenar(Ordenador *ordenador)
 {
+    // ordenando o arquivo de acordo com a regra estipulada pelo ordenador
     ordenador->ordenar(this->lista, this->tamanhoUsado);
 }
 
 int Lista::getTamanhoUsado()
 {
-
+    // retorna o tamnho utilizado até o momento pela lista
     return this->tamanhoUsado;
 }
 
 Lista::~Lista(){
 
+    // liberando o ponteiro que guarda o ponteiro para
+    // os ponteiros das urls
+    // as urls em si, devem ter sua memória liberada pelo utilizador
     delete lista;
 }
