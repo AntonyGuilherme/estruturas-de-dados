@@ -59,6 +59,9 @@ bool lerEntidades(int numeroDeURLASeremLidas, Lista *lista, LeitorDeArquivo *lei
     // armazerna o número de URLs lidas até o momento
     int numeroDeURLsLidas = 0;
 
+    // realiza n leitruas, sendo n o número limitado pelo usuário
+    // realiza n inserções e n comparações
+    // assim temos O(n = numeroDeURLASeremLidas)
     while (lerURL(leitorDeArquivo, enderecoDaURL, numeroDeAcessos))
     {
         // incrementando número de URLs lidas até o momento
@@ -88,12 +91,15 @@ bool GerarRodada(
     Ordenador *ordenador)
 {
     // se houver entidades a serem lidas faça :
+    // O(n)
     if (lerEntidades(numeroDeItensPorRodada, lista, leitorDeArquivo))
     {
         // ordenando o heap
+        // O(nlog(n))
         lista->ordenar(ordenador);
 
         // escrevendo o arquivo da rodada com as urls lidas e ordenadas
+        // O(n)
         escreverArquivoDaRodada(numeroDaRodada, lista, escritor, leitorDeArquivo);
         return true;
     }
@@ -115,6 +121,9 @@ int GerarRodadas(
     int rodada = 0;
 
     // enquanto for necessário gerar rodadas faça :
+    // Cada rodada - O(n.log(n))
+    // Mas lembremos que isso será executado : M (número de urls) / N (Limite estipulado pelo usuário)
+    // Assim temos O(nlog(n) * m/n) = O(mlog(n))
     while (GerarRodada(rodada, numeroDeItensPorRodada, lista, escritor, leitor, &ordenador))
     {
         // incrementando número de rodadas geradas
@@ -145,6 +154,7 @@ void removerFitasGeradas(int numeroDeRodadasGeradas, Fita **fitas)
     }
 }
 
+// O(mlog(n))
 void Intercalar(int numeroDeRodadasGeradas, EscritorDeArquivos *escritor, std::string &arquivo)
 {
     // abrindo o arquivo no qual a fita deverá ser escrita
@@ -157,6 +167,7 @@ void Intercalar(int numeroDeRodadasGeradas, EscritorDeArquivos *escritor, std::s
     Fita **fitas = new Fita *[numeroDeRodadasGeradas];
 
     // gerando as fitas para o acesso as arquivos gerados nas rodadas
+    // O(m/n)
     gerarFitas(numeroDeRodadasGeradas, fitas);
 
     // ponteiro de url que será usado na leitura
@@ -164,18 +175,21 @@ void Intercalar(int numeroDeRodadasGeradas, EscritorDeArquivos *escritor, std::s
     URL *url;
 
     // pegando a primeira url de cada arquivo
+    // O(nlog(n))
     for (int rodada = 0; rodada < numeroDeRodadasGeradas; rodada++)
     {
         // caso não seja possível ler a url é retornado "false"
         // e assim ela não é inserida no heap
+        // O(1)
         if (fitas[rodada]->read(url))
-            heap.inserir(url); // inserindo a url no heap
+            heap.inserir(url); // inserindo a url no heap / O(log(rodada))
     }
 
     int fitaDeOrigemDaURL = 0;
 
     // retirando a url do heap até que chegue ao fim
-    while (heap.pop(url))
+    // O(log(m^2/n)*m^2) 
+    while (heap.pop(url)) 
     {
 
         // escrevendo a url no arquivo de saída
@@ -190,13 +204,14 @@ void Intercalar(int numeroDeRodadasGeradas, EscritorDeArquivos *escritor, std::s
 
         // lendo mais urls da fita de origem da url lida anteriormente
         if (fitas[fitaDeOrigemDaURL]->read(url))
-            heap.inserir(url); // inserindo a url no heap
+            heap.inserir(url); // inserindo a url no heap O(log(m/n))
     }
 
     // fechando o arquivo de saída
     escritor->fechar();
 
     // liberando a memória utlizada para cada fita
+    // O(n)
     removerFitasGeradas(numeroDeRodadasGeradas, fitas);
 
     // removendo as fitas da memória
@@ -254,9 +269,11 @@ int main(int numeroDeArgumentos, char **argumentos)
         EscritorDeArquivos *escritor = new EscritorDeArquivos();
 
         // gerando as rodadas e recuperando o número de rodadas geradas
+        // O(mlog(n))
         int numeroDeRodadasGeradas = GerarRodadas(numeroDeItensPorRodada, &lista, leitor, escritor);
 
         //intercalando e por consequência escrevendo no arquivo de saída
+        // O(mlog(n))
         Intercalar(numeroDeRodadasGeradas, escritor, arquivoDeSaida);
 
         // liberando a memória do escritor de arquivos e do leitor
