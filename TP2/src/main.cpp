@@ -272,9 +272,11 @@ int main(int numeroDeArgumentos, char **argumentos)
         // O(mlog(n))
         int numeroDeRodadasGeradas = GerarRodadas(numeroDeItensPorRodada, &lista, leitor, escritor);
 
+
+
         //intercalando e por consequência escrevendo no arquivo de saída
         // O(mlog(n))
-        Intercalar(numeroDeRodadasGeradas, escritor, arquivoDeSaida);
+        if(numeroDeRodadasGeradas > 0) Intercalar(numeroDeRodadasGeradas, escritor, arquivoDeSaida);
 
         // liberando a memória do escritor de arquivos e do leitor
         // caso hajam arquivos abertos, eles são fechados automaticamente

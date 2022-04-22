@@ -22,4 +22,4 @@ cleanfiles:
 	@rm -rf rodada*
 
 compile:
-	$(BIN_FOLDER)$(TARGET)	urls.txt result_correto.txt 50
+	$(BIN_FOLDER)$(TARGET)	teste.txt saida.txt 50
